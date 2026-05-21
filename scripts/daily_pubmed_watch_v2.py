@@ -604,6 +604,7 @@ SITE_NAV = [
     ("Home", ""),
     ("Create Radar", "create/"),
     ("Demo Radars", "explore/"),
+    ("Live Demo", "demo/"),
     ("Templates", "templates/"),
     ("Community", "community/"),
     ("Methods", "methodology/"),
@@ -630,8 +631,11 @@ def _page_css() -> str:
   .chip{display:inline-flex;align-items:center;gap:8px;background:var(--chip);border:1px solid var(--border);border-radius:999px;padding:4px 9px;font-size:.86em;margin:3px 4px 3px 0}.score{background:#ecfdf5;border-color:#99f6e4;color:#064e3b}
   .steps{counter-reset:step}.step{display:grid;grid-template-columns:36px 1fr;gap:10px;align-items:start;border:1px solid var(--border);border-radius:8px;padding:12px;margin:10px 0}.step:before{counter-increment:step;content:counter(step);display:flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:999px;background:var(--ink);color:#fff;font-weight:700}
   .panel{border:1px solid var(--border);border-radius:8px;background:var(--panel);padding:14px;margin:14px 0}.yaml,.mono{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace}.yaml{white-space:pre-wrap;background:#0b1220;color:#e5eef8;border-radius:8px;padding:12px;overflow:auto}
+  .tabs,.nav,.actions,.signals{display:flex;flex-wrap:wrap;gap:8px}.tabs{margin:12px 0}.tabs span,.nav a{border:1px solid var(--border);border-radius:999px;padding:5px 10px;background:var(--chip);font-size:.9em}.tabs .active{background:var(--ink);border-color:var(--ink);color:#fff}.nav{margin:14px 0 22px}.nav a{color:var(--fg)}
+  .insights{display:grid;grid-template-columns:repeat(12,1fr);gap:12px;margin:12px 0 22px}.insight{grid-column:span 4;border:1px solid var(--border);border-radius:8px;background:#fff;padding:13px;box-shadow:var(--shadow)}.insight h3{margin:0 0 8px;font-size:16px;color:var(--ink)}.insight ul{margin:0;padding-left:18px;color:var(--muted)}.trend-up{color:var(--accent);font-weight:700}.tree{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;white-space:pre-wrap;color:var(--fg);font-size:.92em}
+  .block{border:1px solid var(--border);border-radius:8px;background:#fff;padding:14px;margin:14px 0;box-shadow:var(--shadow)}.blockhead{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}.blocktitle{display:flex;align-items:center;gap:10px}.blocktitle h2{margin:0;font-size:18px}.count{background:var(--chip);border:1px solid var(--border);border-radius:999px;padding:3px 10px;font-size:.85em;color:#24292f}.card .t{font-weight:650}.meta{margin-top:6px;font-size:.92em;color:var(--muted)}.abs{margin-top:9px;color:var(--muted);font-size:.95em}.why{border:1px solid var(--border);background:var(--panel);border-radius:8px;padding:10px;margin-top:10px}.why b{display:block;margin-bottom:6px;color:var(--ink)}.why ul{margin:0;padding-left:18px;color:var(--muted)}.score-pill{background:#ecfdf5;border-color:#99f6e4;color:#064e3b}.btn.small{padding:5px 9px;font-size:.86em}
   table{border-collapse:collapse;width:100%;margin:12px 0}th,td{border:1px solid var(--border);padding:8px;text-align:left}th{background:var(--chip);color:var(--ink)}
-  @media(max-width:760px){.topbar{align-items:flex-start;flex-direction:column}.card,.wide,.full{grid-column:span 12}.hero h1{font-size:32px}}
+  @media(max-width:760px){.topbar{align-items:flex-start;flex-direction:column}.card,.wide,.full,.insight{grid-column:span 12}.hero h1{font-size:32px}}
 </style>
 """
 
@@ -650,6 +654,15 @@ def _site_header(active: str, root_prefix: str = "../") -> str:
     )
 
 
+def _favicon_links(root_prefix: str = "") -> str:
+    favicon = root_prefix + "favicon.png"
+    return (
+        f"<link rel='icon' type='image/png' href='{favicon}'/>"
+        f"<link rel='shortcut icon' type='image/png' href='{favicon}'/>"
+        f"<link rel='apple-touch-icon' href='{favicon}'/>"
+    )
+
+
 def _write_site_page(outdir_docs: str, slug: str, title: str, subtitle: str, active: str, body: str) -> None:
     page_dir = os.path.join(outdir_docs, slug)
     os.makedirs(page_dir, exist_ok=True)
@@ -659,6 +672,7 @@ def _write_site_page(outdir_docs: str, slug: str, title: str, subtitle: str, act
     content = (
         "<!doctype html><html><head><meta charset='utf-8'/>"
         "<meta name='viewport' content='width=device-width,initial-scale=1'/>"
+        f"{_favicon_links(root_prefix)}"
         f"<title>{html.escape(title)} - ETHER</title>"
         f"{_page_css()}</head><body>"
         f"{_site_header(active, root_prefix)}"
@@ -694,6 +708,105 @@ def _template_cards() -> str:
         )
     cards.append("</div>")
     return "".join(cards)
+
+
+def _render_live_demo_body(payload: Dict[str, Any]) -> str:
+    total_hits = sum(int(s.get("count", 0) or 0) for s in payload.get("sections", []))
+    body: List[str] = []
+    body.append("<section id='demo'>")
+    body.append("<div class='section-title'><div><h2>Live Literature Radar Demo</h2><p>Example dashboard pattern: top-ranked papers, signal breakdowns, trend graphs, topic clusters, emerging signals, saved papers, and exports.</p></div>")
+    body.append(f"<span class='chip'><b>Total hits</b> {total_hits}</span></div>")
+    body.append("<div class='tabs'><span class='active'>Top-ranked papers</span><span>Signal breakdown</span><span>Trends</span><span>Topic clusters</span><span>Emerging signals</span><span>Alerts</span><span>Export</span></div>")
+    body.append("<div class='insights'>")
+    body.append("<div class='insight'><h3>What is changing this week?</h3><ul><li>Sharp increase in wastewater metagenomics and AMR papers</li><li>Three new preprints mention benchmark datasets</li><li>A new tool paper includes GitHub code and reproducible workflows</li></ul></div>")
+    body.append("<div class='insight'><h3>Trend graph</h3><ul><li>Papers per month <span class='trend-up'>+42%</span></li><li>Preprint share <span class='trend-up'>+18%</span></li><li>Citation velocity <span class='trend-up'>+12%</span></li><li>Topic novelty score <span class='trend-up'>+22%</span></li></ul></div>")
+    body.append("<div class='insight'><h3>Topic clusters</h3><div class='tree'>Urban microbiome\n|-- Methods and tools\n|-- Disease applications\n|-- Surveillance\n|-- Mechanisms\n|-- Reviews and perspectives\n`-- Datasets and resources</div></div>")
+    body.append("<div class='insight'><h3>Paper actions</h3><div class='checks'><span>Save</span><span>Dismiss</span><span>Reading list</span><span>Mark important</span><span>Export citation</span><span>Add note</span><span>Add author to watchlist</span></div></div>")
+    body.append("<div class='insight'><h3>Signal breakdown</h3><p class='muted'>Each paper exposes topic relevance, recency, citation velocity, journal/source priority, open science, and watchlist contributions.</p></div>")
+    body.append("<div class='insight'><h3>Export everything</h3><div class='checks'><span>CSV</span><span>BibTeX</span><span>RIS</span><span>Markdown summary</span><span>Grant background</span><span>Weekly digest</span></div></div>")
+    body.append("</div>")
+    body.append("<div class='nav'>")
+    for idx, block in enumerate(payload.get("sections", []), start=1):
+        anchor = f"sec-{idx}"
+        label = html.escape(block.get("label", "Section"))
+        cnt = int(block.get("count", 0) or 0)
+        body.append(f"<a href='#{anchor}'>{label} <span class='mono'>({cnt})</span></a>")
+    body.append("</div>")
+    body.append("</section>")
+
+    for idx, block in enumerate(payload.get("sections", []), start=1):
+        anchor = f"sec-{idx}"
+        raw_label = block.get("label", "Section")
+        label = html.escape(raw_label)
+        cnt = int(block.get("count", 0) or 0)
+        q = html.escape(block.get("query", ""))
+
+        body.append(f"<section class='block' id='{anchor}'>")
+        body.append("<div class='blockhead'>")
+        body.append(f"<div class='blocktitle'><h2>{label}</h2><span class='count'>{cnt} result(s)</span></div>")
+        body.append("</div>")
+
+        if q:
+            body.append("<details>")
+            body.append("<summary>Show query</summary>")
+            body.append(f"<div class='muted mono' style='margin-top:8px;white-space:pre-wrap'>{q}</div>")
+            body.append("</details>")
+
+        if not block.get("items"):
+            body.append("<p class='muted' style='margin:10px 0 6px'>No new items in this window.</p>")
+            body.append("</section>")
+            continue
+
+        for it in block.get("items", []):
+            title = html.escape(it.get("title") or "(no title)")
+            link = html.escape(it.get("link") or "#")
+            meta_parts = [it.get("authors", ""), it.get("journal", ""), it.get("pubdate", "")]
+            meta = " · ".join([html.escape(m) for m in meta_parts if m])
+            snippet = html.escape(it.get("abstract_snippet", ""))
+            raw_score = float(it.get("score", 0.0) or 0.0)
+            display_score = int(min(99, max(0, round(raw_score * 5.0))))
+            signals = [html.escape(s) for s in it.get("signal_classes", [])]
+            components = it.get("score_components", {})
+            component_title = html.escape(", ".join(f"{k}: {v}" for k, v in components.items()))
+            why_lines = [
+                f"Matches topic: {raw_label}",
+                f"Published within the last {int(payload['days'])} days",
+            ]
+            if signals:
+                why_lines.append("Contains research signal: " + ", ".join(signals[:3]))
+            if float(components.get("cross_domain", 0.0) or 0.0) > 0:
+                why_lines.append("Connects multiple signal categories")
+            if float(components.get("recency", 0.0) or 0.0) > 1.0:
+                why_lines.append("Strong recency boost")
+
+            body.append("<div class='card full'>")
+            body.append(
+                f"<div class='t'><a href='{link}' target='_blank' rel='noopener'>{title}</a>"
+                f"<span class='chip score score-pill' title='{component_title}'><b>Research Relevance Score</b> <span class='mono'>{display_score}</span></span></div>"
+            )
+            if meta:
+                body.append(f"<div class='meta'>{meta}</div>")
+            if signals:
+                body.append("<div class='signals'>")
+                for sig in signals:
+                    body.append(f"<span class='chip'>{sig}</span>")
+                body.append("</div>")
+            if snippet:
+                body.append(f"<div class='abs'>{snippet}</div>")
+            body.append("<div class='why'><b>Why ranked highly</b><ul>")
+            for reason in why_lines:
+                body.append(f"<li>{html.escape(reason)}</li>")
+            body.append("</ul></div>")
+            body.append("<div class='actions'>")
+            for action in ["Abstract", "Save", "Hide", "Relevant", "Not relevant", "Similar papers", "Export citation"]:
+                body.append(f"<button class='btn small'>{html.escape(action)}</button>")
+            body.append("</div>")
+            body.append("</div>")
+
+        body.append("</section>")
+
+    body.append("<div class='muted' style='margin:26px 0 10px'>Generated automatically from configured literature sources. Current demo source: PubMed via NCBI E-utilities. For informational use only.</div>")
+    return "".join(body)
 
 
 def _write_product_pages(outdir_docs: str, payload: Dict[str, Any]) -> None:
@@ -756,6 +869,15 @@ signal_profile:
 </div>
 """
     _write_site_page(outdir_docs, "explore", "Demo Radars", "Public example dashboards for emerging research fields and reusable radar templates.", "Demo Radars", public_cards)
+
+    _write_site_page(
+        outdir_docs,
+        "demo",
+        "Live Literature Radar Demo",
+        "A working example radar with ranked papers, transparent signal explanations, trends, clusters, alerts, and exports.",
+        "Live Demo",
+        _render_live_demo_body(payload),
+    )
 
     _write_site_page(
         outdir_docs,
@@ -1003,9 +1125,7 @@ def write_outputs(outdir_docs: str, payload: Dict[str, Any]) -> None:
     html_body: List[str] = []
     html_body.append("<!doctype html><html><head><meta charset='utf-8'/>")
     html_body.append("<meta name='viewport' content='width=device-width,initial-scale=1'/>")
-    html_body.append("<link rel='icon' type='image/png' href='https://raw.githubusercontent.com/aglucaci/ETHER/refs/heads/main/logo/ETHER_logo.png'/>")
-    html_body.append("<link rel='shortcut icon' type='image/png' href='https://raw.githubusercontent.com/aglucaci/ETHER/refs/heads/main/logo/ETHER_logo.png'/>")
-    html_body.append("<link rel='apple-touch-icon' href='https://raw.githubusercontent.com/aglucaci/ETHER/refs/heads/main/logo/ETHER_logo.png'/>")
+    html_body.append(_favicon_links())
     html_body.append("<title>ETHER - Live Literature Radars for Science</title>")
     html_body.append("""
 <style>
@@ -1144,6 +1264,7 @@ def write_outputs(outdir_docs: str, payload: Dict[str, Any]) -> None:
     html_body.append("<a href='#home'>Home</a>")
     html_body.append("<a href='create/'>Create Radar</a>")
     html_body.append("<a href='explore/'>Demo Radars</a>")
+    html_body.append("<a href='demo/'>Live Demo</a>")
     html_body.append("<a href='templates/'>Templates</a>")
     html_body.append("<a href='community/'>Community</a>")
     html_body.append("<a href='methodology/'>Methods</a>")
@@ -1162,7 +1283,7 @@ def write_outputs(outdir_docs: str, payload: Dict[str, Any]) -> None:
     html_body.append("<section class='hero' id='home'>")
     html_body.append("<h1>Turn any research topic into a live literature radar.</h1>")
     html_body.append("<p class='subtitle'>ETHER helps researchers, labs, biotech teams, and scientific communities track emerging papers using customizable literature sources, weighted signals, and ranked dashboards.</p>")
-    html_body.append("<div class='hero-actions'><a class='btn primary' href='create/'>Create a Radar</a><a class='btn' href='#demo'>View Demo Dashboard</a><a class='btn' href='https://github.com/aglucaci/ETHER' target='_blank' rel='noopener'>GitHub</a></div>")
+    html_body.append("<div class='hero-actions'><a class='btn primary' href='create/'>Create a Radar</a><a class='btn' href='demo/'>View Demo Dashboard</a><a class='btn' href='https://github.com/aglucaci/ETHER' target='_blank' rel='noopener'>GitHub</a></div>")
     html_body.append("<div class='dashboard-preview' aria-label='Interactive dashboard preview'>")
     html_body.append("<div class='dash-head'><div><h2>RNA virus discovery in metagenomes</h2><p>Live dashboard preview: ranked papers, signal scores, trends, clusters, alerts, and sources.</p></div><span class='chip score-pill'>New high-priority paper detected</span></div>")
     html_body.append("<div class='dash-grid'><div>")
@@ -1217,7 +1338,7 @@ def write_outputs(outdir_docs: str, payload: Dict[str, Any]) -> None:
         ("Custom Field", "User-defined sources, terms, signals, weights, and export formats."),
     ]
     for title, desc in templates:
-        html_body.append(f"<a class='template' href='#demo'><h3>{html.escape(title)}</h3><p>{html.escape(desc)}</p></a>")
+        html_body.append(f"<a class='template' href='demo/'><h3>{html.escape(title)}</h3><p>{html.escape(desc)}</p></a>")
     html_body.append("</div>")
     html_body.append("</section>")
 
@@ -1286,32 +1407,10 @@ def write_outputs(outdir_docs: str, payload: Dict[str, Any]) -> None:
     html_body.append("</div>")
     html_body.append("</section>")
 
-    # Quick nav
-    html_body.append("<section id='demo'>")
-    html_body.append("<div class='section-title'><div><h2>Live Literature Radar Demo</h2><p>Example dashboard pattern: top-ranked papers, signal breakdowns, trend graphs, topic clusters, emerging signals, saved papers, and exports.</p></div>")
-    html_body.append(f"<span class='chip'><b>Total hits</b> {total_hits}</span></div>")
-    html_body.append("<div class='tabs'><span class='active'>Top-ranked papers</span><span>Signal breakdown</span><span>Trends</span><span>Topic clusters</span><span>Emerging signals</span><span>Alerts</span><span>Export</span></div>")
-    html_body.append("<div class='insights'>")
-    html_body.append("<div class='insight'><h3>What is changing this week?</h3><ul><li>Sharp increase in wastewater metagenomics and AMR papers</li><li>Three new preprints mention benchmark datasets</li><li>A new tool paper includes GitHub code and reproducible workflows</li></ul></div>")
-    html_body.append("<div class='insight'><h3>Trend graph</h3><ul><li>Papers per month <span class='trend-up'>+42%</span></li><li>Preprint share <span class='trend-up'>+18%</span></li><li>Citation velocity <span class='trend-up'>+12%</span></li><li>Topic novelty score <span class='trend-up'>+22%</span></li></ul></div>")
-    html_body.append("<div class='insight'><h3>Topic clusters</h3><div class='tree'>Urban microbiome\n|-- Methods and tools\n|-- Disease applications\n|-- Surveillance\n|-- Mechanisms\n|-- Reviews and perspectives\n`-- Datasets and resources</div></div>")
-    html_body.append("<div class='insight'><h3>Paper actions</h3><div class='checks'><span>Save</span><span>Dismiss</span><span>Reading list</span><span>Mark important</span><span>Export citation</span><span>Add note</span><span>Add author to watchlist</span></div></div>")
-    html_body.append("<div class='insight'><h3>Signal breakdown</h3><p class='muted'>Each paper exposes topic relevance, recency, citation velocity, journal/source priority, open science, and watchlist contributions.</p></div>")
-    html_body.append("<div class='insight'><h3>Export everything</h3><div class='checks'><span>CSV</span><span>BibTeX</span><span>RIS</span><span>Markdown summary</span><span>Grant background</span><span>Weekly digest</span></div></div>")
-    html_body.append("</div>")
-    html_body.append("<div class='nav'>")
-    for idx, block in enumerate(payload.get("sections", []), start=1):
-        anchor = f"sec-{idx}"
-        raw_label = block.get("label", "Section")
-        label = html.escape(raw_label)
-        cnt = int(block.get("count", 0) or 0)
-        html_body.append(f"<a href='#{anchor}'>{label} <span class='mono'>({cnt})</span></a>")
-    html_body.append("</div>")
-    html_body.append("</section>")
     html_body.append("</header>")
 
-    # Theme blocks
-    for idx, block in enumerate(payload.get("sections", []), start=1):
+    # Full ranked demo output is rendered on the dedicated Live Demo page.
+    for idx, block in enumerate([], start=1):
         anchor = f"sec-{idx}"
         raw_label = block.get("label", "Section")
         label = html.escape(raw_label)
