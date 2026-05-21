@@ -1,10 +1,10 @@
-# ResearchRadar Manuscript
+# ETHER Manuscript
 
-This folder contains the working manuscript for ResearchRadar.
+This folder contains the working manuscript for ETHER.
 
 ## Files
 
-- `researchradar_manuscript.md` - first full manuscript draft for a Bioinformatics Application Note or BMC Bioinformatics software article.
+- `ether_manuscript.md` - first full manuscript draft for a Bioinformatics Application Note or BMC Bioinformatics software article.
 - `VALIDATION_PLAN.md` - benchmark design for the case studies, baselines, ablations, and metrics needed for the paper.
 - `validation_rankings_template.csv` - small CSV schema example for running validation metrics.
 

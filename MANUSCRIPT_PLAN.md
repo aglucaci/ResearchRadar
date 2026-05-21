@@ -1,12 +1,12 @@
-# ResearchRadar Manuscript Plan
+# ETHER Manuscript Plan
 
 ## Working Title
 
-ResearchRadar: customizable signal-weighted dashboards for biomedical literature monitoring
+ETHER: Emerging Topic Horizon Engine for Research
 
 ## Central Contribution
 
-ResearchRadar should be presented as a reproducible radar-builder system for
+ETHER should be presented as a reproducible radar-builder system for
 scientific literature surveillance, not as a one-off PubMed dashboard. The
 publishable contribution is the transparent scoring framework that combines
 user-defined topics, source selection, signal profiles, recency weighting,
@@ -32,11 +32,11 @@ describing a specific evolutionary biology case study.
 
 ## Claim To Defend
 
-ResearchRadar transforms research topics and source selections into
+ETHER transforms research topics and source selections into
 continuously updated, signal-weighted dashboards for tracking new papers,
 emerging trends, and scientific signals across any field.
 
-Avoid claiming that ResearchRadar discovers new scientific knowledge unless
+Avoid claiming that ETHER discovers new scientific knowledge unless
 trend detection, entity extraction, or expert-validated discovery workflows are
 added.
 
@@ -49,7 +49,7 @@ added.
 
 2. Literature retrieval
 
-   ResearchRadar uses configurable source adapters to retrieve article metadata
+   ETHER uses configurable source adapters to retrieve article metadata
    over configurable date windows. The current demo uses NCBI E-utilities /
    PubMed. Publication-ready versions should support PubMed first, then
    bioRxiv, medRxiv, CrossRef, Semantic Scholar, and arXiv through modular
@@ -57,7 +57,7 @@ added.
 
 3. Signal profile
 
-   A signal profile defines what the user wants ResearchRadar to prioritize.
+   A signal profile defines what the user wants ETHER to prioritize.
    Biomedical examples include methods, clinical relevance, datasets,
    mechanisms, biomarkers, translational potential, surveillance relevance,
    therapeutic relevance, open-source tools, and review articles.
@@ -79,7 +79,7 @@ added.
 
 5. Dashboard and reproducibility
 
-   GitHub Actions runs ResearchRadar on a schedule and publishes versioned
+   GitHub Actions runs ETHER on a schedule and publishes versioned
    static outputs through GitHub Pages. The JSON artifact provides auditable
    score components for downstream validation.
 
@@ -123,7 +123,7 @@ For each case study:
 
 - retrieve 100-300 papers
 - manually label relevance
-- compare ResearchRadar ranking against baselines
+- compare ETHER ranking against baselines
 
 Labels:
 
@@ -136,10 +136,10 @@ Baselines:
 - Date-only ranking
 - Keyword-count ranking
 - PubMed relevance ranking
-- ResearchRadar full model
-- ResearchRadar without recency
-- ResearchRadar without signal profile
-- ResearchRadar without cross-domain bonus
+- ETHER full model
+- ETHER without recency
+- ETHER without signal profile
+- ETHER without cross-domain bonus
 
 Metrics:
 
@@ -151,7 +151,7 @@ Metrics:
 
 Modest paper claim:
 
-> ResearchRadar improves prioritization of expert-relevant papers compared with
+> ETHER improves prioritization of expert-relevant papers compared with
 > date-only and keyword-count baselines.
 
 ## Suggested Figures

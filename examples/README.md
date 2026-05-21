@@ -1,6 +1,6 @@
 # Starter Radars
 
-These starter radar configurations show how ResearchRadar should feel as a
+These starter radar configurations show how ETHER should feel as a
 configurable research intelligence system. Each radar defines a topic, sources,
 query set, signal profile, scoring weights, and export outputs.
 
@@ -23,8 +23,8 @@ product contract for the publishable CLI and web workflow.
 ## Planned Commands
 
 ```bash
-researchradar build examples/cancer_evolution.yml
-researchradar clone examples/cancer_evolution.yml my_leukemia_radar.yml
-researchradar export results/cancer_evolution/ --format csv
-researchradar export results/cancer_evolution/ --format bibtex
+ether build examples/cancer_evolution.yml
+ether clone examples/cancer_evolution.yml my_leukemia_radar.yml
+ether export results/cancer_evolution/ --format csv
+ether export results/cancer_evolution/ --format bibtex
 ```

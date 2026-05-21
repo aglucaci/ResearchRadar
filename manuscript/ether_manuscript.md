@@ -1,8 +1,8 @@
-# ResearchRadar: customizable signal-weighted dashboards for biomedical literature monitoring
+# ETHER: Emerging Topic Horizon Engine for Research
 
 **Article type:** Bioinformatics Application Note or BMC Bioinformatics Software Article
 
-**Running title:** Signal-weighted literature monitoring with ResearchRadar
+**Running title:** Emerging topic monitoring with ETHER
 
 **Authors:** TODO
 
@@ -14,11 +14,11 @@
 
 **Motivation:** Biomedical researchers face rapid growth of publications across PubMed, preprint servers, and specialized scientific domains. Standard keyword alerts and database-specific searches help retrieve new records, but they often return noisy chronological lists, provide limited personalization, and rarely explain why a paper should be prioritized for expert review. This problem is especially acute in interdisciplinary fields where relevant signals are distributed across disease areas, methods, organisms, and publication venues.
 
-**Results:** We developed ResearchRadar, a configurable literature-monitoring system that converts user-defined research topics into live, scored dashboards. ResearchRadar retrieves scholarly records from configurable sources, applies transparent signal-weighted scoring, ranks papers by recency and scientific relevance, and generates interactive dashboards for ongoing literature surveillance. Users can define research topics, select sources, specify priority terms, adjust scoring weights, inspect ranking explanations, and export results in reusable formats.
+**Results:** We developed ETHER, the Emerging Topic Horizon Engine for Research, an open-source literature intelligence platform that turns user-defined research topics into live, scored dashboards. ETHER retrieves scholarly records from configurable sources, applies transparent signal-weighted scoring, ranks papers by recency and scientific relevance, and generates interactive dashboards for ongoing literature surveillance. Users can define research topics, select sources, specify priority terms, adjust scoring weights, inspect ranking explanations, and export results in reusable formats.
 
-**Validation:** We designed ResearchRadar for evaluation across biomedical case studies in cancer evolution, viral evolution, and metagenomics. The planned validation compares signal-weighted ranking against date-only, keyword-count, and database relevance baselines using expert-labeled papers and information retrieval metrics including Precision@K and nDCG@K. TODO: replace this sentence with measured validation results after expert labeling and benchmarking.
+**Validation:** We designed ETHER for evaluation across biomedical case studies in cancer evolution, viral evolution, and metagenomics. The planned validation compares signal-weighted ranking against date-only, keyword-count, and database relevance baselines using expert-labeled papers and information retrieval metrics including Precision@K and nDCG@K. TODO: replace this sentence with measured validation results after expert labeling and benchmarking.
 
-**Availability:** ResearchRadar is available as an open-source software project and static dashboard workflow. TODO: insert repository URL, documentation URL, version, license, and archived release DOI.
+**Availability:** ETHER is available as an open-source software project and static dashboard workflow. TODO: insert repository URL, documentation URL, version, license, and archived release DOI.
 
 ## 1. Introduction
 
@@ -28,13 +28,13 @@ Existing tools such as PubMed alerts, Google Scholar alerts, saved database sear
 
 Researchers need a lightweight system that converts a topic into a continuously updated literature radar: a ranked, inspectable, and reproducible dashboard that reflects the user's scientific priorities. Such a system should allow users to define not only what to search for, but also what kinds of evidence, methods, organisms, disease contexts, or emerging signals should influence ranking.
 
-We present ResearchRadar, an open-source literature intelligence platform that enables users to define scientific topics, configure query sets and signal profiles, and generate live dashboards of newly published papers. Unlike conventional literature alerts, ResearchRadar scores papers using transparent, user-configurable features including recency, topic relevance, matched priority terms, source metadata, and topic-specific terminology.
+We present ETHER, an open-source literature intelligence platform that enables users to define scientific topics, configure query sets and signal profiles, and generate live dashboards of newly published papers. Unlike conventional literature alerts, ETHER scores papers using transparent, user-configurable features including recency, topic relevance, matched priority terms, source metadata, and topic-specific terminology.
 
-ResearchRadar is intended as a surveillance and prioritization layer between simple keyword alerts and formal systematic review workflows. It does not replace expert reading or evidence synthesis. Instead, it helps researchers decide which papers to inspect first, why those papers were prioritized, and how the ranking rules can be modified for a specific lab, project, grant, or review question. In this article, we describe the system design, scoring model, dashboard interface, and validation plan for ResearchRadar across biomedical use cases including cancer evolution, viral evolution, and metagenomics.
+ETHER is intended as a surveillance and prioritization layer between simple keyword alerts and formal systematic review workflows. It does not replace expert reading or evidence synthesis. Instead, it helps researchers decide which papers to inspect first, why those papers were prioritized, and how the ranking rules can be modified for a specific lab, project, grant, or review question. In this article, we describe the system design, scoring model, dashboard interface, and validation plan for ETHER across biomedical use cases including cancer evolution, viral evolution, and metagenomics.
 
 ## 2. System Overview
 
-ResearchRadar converts a user-defined topic or radar configuration into a ranked literature dashboard. The workflow has six stages:
+ETHER converts a user-defined topic or radar configuration into a ranked literature dashboard. The workflow has six stages:
 
 ```text
 User topic or radar config
@@ -56,7 +56,7 @@ Signal-weighted scoring
 Ranking, filtering, dashboard, exports, alerts
 ```
 
-ResearchRadar has four main components:
+ETHER has four main components:
 
 1. Radar configuration
 2. Literature retrieval
@@ -123,11 +123,11 @@ The initial implementation focuses on biomedical literature sources, while the a
 | Semantic Scholar | Citation and semantic metadata, where available |
 | arXiv | Computational and quantitative research domains |
 
-For each source, ResearchRadar uses a source adapter that normalizes records into a shared schema. This allows papers from multiple sources to be ranked, filtered, deduplicated, and exported together.
+For each source, ETHER uses a source adapter that normalizes records into a shared schema. This allows papers from multiple sources to be ranked, filtered, deduplicated, and exported together.
 
 ### 3.3 Metadata Fields
 
-ResearchRadar stores metadata fields used for topic matching, scoring, display, filtering, and export.
+ETHER stores metadata fields used for topic matching, scoring, display, filtering, and export.
 
 | Field | Use |
 | --- | --- |
@@ -142,7 +142,7 @@ ResearchRadar stores metadata fields used for topic matching, scoring, display, 
 
 ### 3.4 Text Processing
 
-The first version emphasizes transparent and inspectable text processing. For each record, ResearchRadar applies normalization and matching steps that may include:
+The first version emphasizes transparent and inspectable text processing. For each record, ETHER applies normalization and matching steps that may include:
 
 - lowercasing title, abstract, and keyword text
 - exact phrase matching for topic and priority terms
@@ -183,13 +183,13 @@ topic relevance
 + optional user feedback adjustment
 ```
 
-The matched signal score is calculated from the user-defined signal profile. If a paper matches priority terms in a category such as `clinical_relevance`, `methods`, or `surveillance`, that category contributes according to its assigned weight. A paper can receive credit from multiple categories, which allows ResearchRadar to prioritize cross-domain papers such as a metagenomic surveillance study using long-read sequencing or a cancer evolution paper combining single-cell lineage tracing with therapy resistance.
+The matched signal score is calculated from the user-defined signal profile. If a paper matches priority terms in a category such as `clinical_relevance`, `methods`, or `surveillance`, that category contributes according to its assigned weight. A paper can receive credit from multiple categories, which allows ETHER to prioritize cross-domain papers such as a metagenomic surveillance study using long-read sequencing or a cancer evolution paper combining single-cell lineage tracing with therapy resistance.
 
-The scoring model is intentionally transparent and configurable. Each paper includes an explanation showing which terms and features contributed to its ranking. This makes the system auditable and distinguishes ResearchRadar from black-box recommendation systems.
+The scoring model is intentionally transparent and configurable. Each paper includes an explanation showing which terms and features contributed to its ranking. This makes the system auditable and distinguishes ETHER from black-box recommendation systems.
 
 ### 3.6 Dashboard Generation and Export
 
-ResearchRadar generates static and interactive outputs suitable for individual researchers, labs, and public research resources. Supported or planned outputs include:
+ETHER generates static and interactive outputs suitable for individual researchers, labs, and public research resources. Supported or planned outputs include:
 
 - interactive web dashboard
 - static HTML export
@@ -223,7 +223,7 @@ The current repository may implement these modules as scripts and templates duri
 
 ### 4.1 Create a Radar
 
-ResearchRadar is designed as a radar builder rather than a static dashboard. The core user workflow is:
+ETHER is designed as a radar builder rather than a static dashboard. The core user workflow is:
 
 ```text
 Enter topic
@@ -234,7 +234,7 @@ Enter topic
 -> save, clone, export, or publish
 ```
 
-A user can begin with a topic such as "cancer evolution and therapy resistance" or "AI for protein design." ResearchRadar then generates a starter radar containing suggested queries, sources, signal categories, and weights. Users can accept the defaults, adjust weights with sliders, add custom signals, or switch to an advanced configuration view.
+A user can begin with a topic such as "cancer evolution and therapy resistance" or "AI for protein design." ETHER then generates a starter radar containing suggested queries, sources, signal categories, and weights. Users can accept the defaults, adjust weights with sliders, add custom signals, or switch to an advanced configuration view.
 
 ### 4.2 Paper Cards
 
@@ -288,7 +288,7 @@ The interface supports faceted filtering by source, date, field, method, paper t
 
 The validation is designed to answer four questions:
 
-1. Does ResearchRadar prioritize relevant papers better than keyword-only search?
+1. Does ETHER prioritize relevant papers better than keyword-only search?
 2. Does signal-weighted scoring improve ranking compared with date-only ranking?
 3. Are score explanations interpretable to domain experts?
 4. Can the same framework generalize across biomedical subfields?
@@ -325,7 +325,7 @@ Expert labels should assess topical relevance, methodological novelty, biologica
 
 ### 5.4 Baselines
 
-ResearchRadar should be compared with practical baselines that reflect common literature monitoring workflows.
+ETHER should be compared with practical baselines that reflect common literature monitoring workflows.
 
 | Baseline | Description |
 | --- | --- |
@@ -333,7 +333,7 @@ ResearchRadar should be compared with practical baselines that reflect common li
 | Keyword count | Rank by number of query-term matches |
 | PubMed relevance | Default PubMed sorting where available |
 | Embedding similarity only | Optional baseline if embeddings are implemented |
-| Full ResearchRadar model | Topic relevance, recency, signals, and weights |
+| Full ETHER model | Topic relevance, recency, signals, and weights |
 
 ### 5.5 Metrics
 
@@ -347,7 +347,7 @@ Information retrieval metrics will quantify ranking quality.
 | Recall@K | Fraction of relevant papers appearing in top K |
 | MRR | Rank position of the first highly relevant paper |
 
-The minimal publishable evaluation should show whether ResearchRadar improves Precision@25 and nDCG@10 relative to date-only and keyword-count baselines across all three case studies.
+The minimal publishable evaluation should show whether ETHER improves Precision@25 and nDCG@10 relative to date-only and keyword-count baselines across all three case studies.
 
 ### 5.6 Ablation Analysis
 
@@ -355,23 +355,23 @@ Ablation analysis will assess which components contribute to performance.
 
 | Model | Removed component |
 | --- | --- |
-| Full ResearchRadar | None |
+| Full ETHER | None |
 | No recency | Removes date weighting |
 | No signal profile | Removes priority terms and signal weights |
 | No source weighting | Removes source or category modifier |
 | No custom weights | Uses equal weights only |
 
-This analysis is important because the central claim of ResearchRadar is that configurable signal weighting improves literature prioritization.
+This analysis is important because the central claim of ETHER is that configurable signal weighting improves literature prioritization.
 
 ### 5.7 Interpretability Evaluation
 
-Because ResearchRadar emphasizes transparent ranking, validation should include an interpretability component. Domain experts can rate whether card-level explanations correctly identify why a paper is relevant and whether the matched priority terms help them decide what to read. A simple evaluation can ask experts to score explanations on clarity, correctness, and usefulness using a Likert scale.
+Because ETHER emphasizes transparent ranking, validation should include an interpretability component. Domain experts can rate whether card-level explanations correctly identify why a paper is relevant and whether the matched priority terms help them decide what to read. A simple evaluation can ask experts to score explanations on clarity, correctness, and usefulness using a Likert scale.
 
 ## 6. Results
 
-### 6.1 ResearchRadar Generates Topic-Specific Dashboards
+### 6.1 ETHER Generates Topic-Specific Dashboards
 
-ResearchRadar generates dashboards from user-defined radar configurations. In the current prototype, a radar can retrieve records from PubMed, score papers using topic-specific signal profiles, and publish a static dashboard with ranked paper cards, score explanations, and reusable data outputs.
+ETHER generates dashboards from user-defined radar configurations. In the current prototype, a radar can retrieve records from PubMed, score papers using topic-specific signal profiles, and publish a static dashboard with ranked paper cards, score explanations, and reusable data outputs.
 
 TODO: Insert screenshots and quantitative summary of generated dashboards for cancer evolution, viral evolution, and metagenomics.
 
@@ -388,11 +388,11 @@ Performance table placeholder:
 | Date-only | TBD | TBD | TBD |
 | Keyword count | TBD | TBD | TBD |
 | PubMed relevance | TBD | TBD | TBD |
-| ResearchRadar | TBD | TBD | TBD |
+| ETHER | TBD | TBD | TBD |
 
 ### 6.3 Score Explanations Improve Interpretability
 
-ResearchRadar paper cards expose matched topics, priority terms, recency contributions, and source metadata. This supports auditability and helps users understand whether the radar is prioritizing papers for the intended reasons.
+ETHER paper cards expose matched topics, priority terms, recency contributions, and source metadata. This supports auditability and helps users understand whether the radar is prioritizing papers for the intended reasons.
 
 TODO: Insert expert ratings or qualitative examples showing that explanations were useful for interpreting rankings.
 
@@ -408,35 +408,35 @@ Cancer Evolution Radar
 
 This clone-and-modify model supports field-specific monitoring without requiring users to rebuild search and scoring logic from scratch.
 
-### 6.5 ResearchRadar Supports Reproducible Literature Monitoring
+### 6.5 ETHER Supports Reproducible Literature Monitoring
 
-ResearchRadar supports reproducibility through versioned configurations, scheduled update workflows, static exports, and machine-readable outputs. A radar can be archived with its configuration, retrieved records, scores, and generated dashboard, allowing users to inspect how a literature view was constructed at a specific time.
+ETHER supports reproducibility through versioned configurations, scheduled update workflows, static exports, and machine-readable outputs. A radar can be archived with its configuration, retrieved records, scores, and generated dashboard, allowing users to inspect how a literature view was constructed at a specific time.
 
 ## 7. Discussion
 
-ResearchRadar provides a configurable framework for turning literature searches into transparent, signal-weighted dashboards. Its main contribution is not simply querying biomedical databases, but allowing users to define what kinds of scientific signals should influence prioritization. This makes ResearchRadar a radar builder for scientific literature rather than a static search result viewer.
+ETHER provides a configurable framework for turning literature searches into transparent, signal-weighted dashboards. Its main contribution is not simply querying biomedical databases, but allowing users to define what kinds of scientific signals should influence prioritization. This makes ETHER a radar builder for scientific literature rather than a static search result viewer.
 
-ResearchRadar complements existing alerting, review, and text-mining tools. PubMed alerts and Google Scholar alerts are useful for simple topic monitoring, but they provide limited user-defined scoring and explanation. Systematic review tools are important for evidence synthesis, but they are often heavier than needed for continuous research surveillance. Biomedical text-mining systems can extract entities and relations at scale, but they may not provide a lightweight, configurable dashboard for field-specific monitoring. ResearchRadar is designed for the gap between these workflows: rapid prioritization, transparent ranking, and reproducible surveillance.
+ETHER complements existing alerting, review, and text-mining tools. PubMed alerts and Google Scholar alerts are useful for simple topic monitoring, but they provide limited user-defined scoring and explanation. Systematic review tools are important for evidence synthesis, but they are often heavier than needed for continuous research surveillance. Biomedical text-mining systems can extract entities and relations at scale, but they may not provide a lightweight, configurable dashboard for field-specific monitoring. ETHER is designed for the gap between these workflows: rapid prioritization, transparent ranking, and reproducible surveillance.
 
 Potential use cases include weekly literature monitoring, grant preparation, review article discovery, lab journal clubs, biotech and scientific intelligence, emerging field tracking, and cross-domain scientific monitoring. In a lab setting, a shared radar could track a research program and maintain a curated reading list. In a public resource setting, a radar could monitor an emerging topic and publish a regularly updated dashboard.
 
-Several limitations should be noted. Keyword and abstract-based scoring may miss subtle relevance, especially when important concepts are implied rather than stated. Abstracts are incomplete representations of full papers. Source coverage varies across fields, and preprint metadata can be noisy. Signal weights require user tuning, and expert labels used for validation may be subjective. ResearchRadar is therefore not a substitute for systematic review, formal evidence synthesis, or expert judgment.
+Several limitations should be noted. Keyword and abstract-based scoring may miss subtle relevance, especially when important concepts are implied rather than stated. Abstracts are incomplete representations of full papers. Source coverage varies across fields, and preprint metadata can be noisy. Signal weights require user tuning, and expert labels used for validation may be subjective. ETHER is therefore not a substitute for systematic review, formal evidence synthesis, or expert judgment.
 
-Future work will extend ResearchRadar with full-text support, LLM-assisted structured summaries, user feedback learning, team radars, citation graph integration, author and institution trend mapping, alerting and email digests, additional source adapters, ontology-driven signal dictionaries, and field emergence detection. User feedback could allow a radar to learn from papers marked relevant or not relevant while preserving transparent scoring rules.
+Future work will extend ETHER with full-text support, LLM-assisted structured summaries, user feedback learning, team radars, citation graph integration, author and institution trend mapping, alerting and email digests, additional source adapters, ontology-driven signal dictionaries, and field emergence detection. User feedback could allow a radar to learn from papers marked relevant or not relevant while preserving transparent scoring rules.
 
 ## 8. Conclusion
 
-ResearchRadar enables researchers to construct customizable, transparent, and reproducible literature radars for monitoring rapidly evolving scientific fields. By combining topic-specific retrieval, signal-weighted scoring, ranking explanations, and interactive dashboards, ResearchRadar provides a practical layer between simple keyword alerts and formal systematic review workflows. Case studies in cancer evolution, viral evolution, and metagenomics provide a clear path for validating its utility for prioritizing emerging biomedical literature.
+ETHER enables researchers to construct customizable, transparent, and reproducible literature radars for monitoring rapidly evolving scientific fields. By combining topic-specific retrieval, signal-weighted scoring, ranking explanations, and interactive dashboards, ETHER provides a practical layer between simple keyword alerts and formal systematic review workflows. Case studies in cancer evolution, viral evolution, and metagenomics provide a clear path for validating its utility for prioritizing emerging biomedical literature.
 
 ## 9. Figure Legends
 
-**Figure 1. ResearchRadar workflow for configurable literature surveillance.** A user topic or radar configuration is converted into source queries, metadata retrieval, text processing, feature extraction, signal-weighted scoring, ranking, dashboard generation, and export.
+**Figure 1. ETHER workflow for configurable literature surveillance.** A user topic or radar configuration is converted into source queries, metadata retrieval, text processing, feature extraction, signal-weighted scoring, ranking, dashboard generation, and export.
 
-**Figure 2. Example ResearchRadar dashboard.** The dashboard shows top-ranked papers, Research Relevance Scores, matched priority terms, ranking explanations, source filters, trend panels, and export controls.
+**Figure 2. Example ETHER dashboard.** The dashboard shows top-ranked papers, Research Relevance Scores, matched priority terms, ranking explanations, source filters, trend panels, and export controls.
 
 **Figure 3. Signal-weighted scoring model.** Topic relevance, recency, priority terms, source metadata, and optional user feedback contribute to a transparent Research Relevance Score.
 
-**Figure 4. Benchmark performance.** Precision@10, Precision@25, and nDCG@10 compare ResearchRadar against date-only, keyword-count, and database relevance baselines.
+**Figure 4. Benchmark performance.** Precision@10, Precision@25, and nDCG@10 compare ETHER against date-only, keyword-count, and database relevance baselines.
 
 **Figure 5. Case-study comparison.** Example radars for cancer evolution, viral evolution, and metagenomics show distinct signal categories, top terms, and ranked papers.
 
@@ -444,7 +444,7 @@ ResearchRadar enables researchers to construct customizable, transparent, and re
 
 ### Table 1. Comparison with Existing Approaches
 
-| Feature | PubMed alerts | Google Scholar alerts | Systematic review tools | ResearchRadar |
+| Feature | PubMed alerts | Google Scholar alerts | Systematic review tools | ETHER |
 | --- | ---: | ---: | ---: | ---: |
 | Topic alerts | yes | yes | yes | yes |
 | Custom scoring | limited | no | variable | yes |
@@ -477,7 +477,7 @@ ResearchRadar enables researchers to construct customizable, transparent, and re
 | Date-only | TBD | TBD | TBD |
 | Keyword count | TBD | TBD | TBD |
 | PubMed relevance | TBD | TBD | TBD |
-| ResearchRadar | TBD | TBD | TBD |
+| ETHER | TBD | TBD | TBD |
 
 ## 11. Supplementary Material
 
@@ -495,7 +495,7 @@ Supplementary material should include:
 
 ## 12. Availability and Implementation Details
 
-**Project name:** ResearchRadar
+**Project name:** ETHER
 
 **Repository:** TODO
 
@@ -517,7 +517,7 @@ The validation dataset, radar configurations, retrieved metadata, and benchmark 
 
 ## 14. Code Availability
 
-The ResearchRadar source code, example radar configurations, dashboard templates, and export utilities will be made available in a public repository under an open-source license. TODO: insert URL and release DOI.
+The ETHER source code, example radar configurations, dashboard templates, and export utilities will be made available in a public repository under an open-source license. TODO: insert URL and release DOI.
 
 ## 15. Funding
 

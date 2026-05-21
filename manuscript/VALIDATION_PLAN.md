@@ -1,10 +1,10 @@
-# ResearchRadar Validation Plan
+# ETHER Validation Plan
 
 This plan defines the minimum validation needed to support the software paper.
 
 ## Evaluation Questions
 
-1. Does ResearchRadar prioritize expert-relevant papers better than date-only ranking?
+1. Does ETHER prioritize expert-relevant papers better than date-only ranking?
 2. Does signal-weighted ranking improve over keyword-count ranking?
 3. Are score explanations interpretable to domain experts?
 4. Does the same framework work across multiple biomedical subfields?
@@ -51,13 +51,13 @@ Optional secondary labels:
 | Date-only | Newest papers first |
 | Keyword count | More query and priority term matches rank higher |
 | PubMed relevance | PubMed default relevance ranking, where available |
-| ResearchRadar | Topic relevance, recency, signal profile, and source metadata |
+| ETHER | Topic relevance, recency, signal profile, and source metadata |
 
 ## Ablations
 
 | Model | Removed component |
 | --- | --- |
-| Full ResearchRadar | None |
+| Full ETHER | None |
 | No recency | Removes date weighting |
 | No signal profile | Removes priority-term scoring |
 | No source weighting | Removes source/category modifier |
@@ -82,8 +82,8 @@ python scripts/validate_ranking.py manuscript/validation_rankings_template.csv
 
 ## Minimum Claim
 
-ResearchRadar improves prioritization of expert-relevant papers compared with
+ETHER improves prioritization of expert-relevant papers compared with
 date-only and keyword-count baselines.
 
-Do not claim ResearchRadar replaces systematic review. It is a surveillance and
+Do not claim ETHER replaces systematic review. It is a surveillance and
 prioritization layer.

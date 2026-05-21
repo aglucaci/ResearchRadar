@@ -1,19 +1,18 @@
-# ResearchRadar
+# ETHER
 
-**Turn any research topic into a live literature radar.**
+**Emerging Topic Horizon Engine for Research**
 
-ResearchRadar is an open-source literature intelligence platform for creating
-customizable, signal-weighted dashboards of scientific papers. Users define a
-topic, choose literature sources, configure priority signals, and generate
-ranked dashboards that help track emerging research across biomedical science
-and beyond.
+ETHER is an open-source literature intelligence platform that turns any
+research topic into a live literature radar. Users define a topic, choose
+literature sources, configure priority signals, and generate ranked dashboards
+to track emerging research across biomedical science and beyond.
 
-## Why ResearchRadar?
+## Why ETHER?
 
 Researchers are overwhelmed by new papers. Standard alerts return long lists of
 results, but they rarely explain which papers matter most or why.
 
-ResearchRadar helps users:
+ETHER helps users:
 
 - track new papers across topics
 - prioritize papers using transparent scoring
@@ -58,7 +57,7 @@ Examples:
 
 ### Signal Profile
 
-A **signal profile** tells ResearchRadar what to prioritize.
+A **signal profile** tells ETHER what to prioritize.
 
 Example signal categories:
 
@@ -93,7 +92,7 @@ method signals, recency, source, and score components.
 
 ## Product Workflow
 
-ResearchRadar is designed as a radar builder:
+ETHER is designed as a radar builder:
 
 ```text
 Create Radar -> Enter Topic -> Choose Template -> Adjust Signals -> Generate Dashboard -> Export
@@ -114,9 +113,9 @@ can come later.
 
 ## Live Dashboard
 
-https://aglucaci.github.io/litscan/
+https://aglucaci.github.io/ETHER/
 
-[![ResearchRadar](https://github.com/aglucaci/litscan/actions/workflows/litscan-radar-monthly.yml/badge.svg)](https://github.com/aglucaci/litscan/actions/workflows/litscan-radar-monthly.yml)
+[![ETHER](https://github.com/aglucaci/ETHER/actions/workflows/ether-radar.yml/badge.svg)](https://github.com/aglucaci/ETHER/actions/workflows/ether-radar.yml)
 
 ## Site Map
 
@@ -159,14 +158,14 @@ python -m unittest tests.test_scoring
 Planned package workflow:
 
 ```bash
-git clone https://github.com/your-org/researchradar
-cd researchradar
+git clone https://github.com/your-org/ether
+cd ether
 pip install -e .
-researchradar init ai_protein_design
-researchradar build radars/ai_protein_design.yml
-researchradar serve results/ai_protein_design/
-researchradar export results/ai_protein_design/ --format csv
-researchradar export results/ai_protein_design/ --format bibtex
+ether init ai_protein_design
+ether build radars/ai_protein_design.yml
+ether serve results/ai_protein_design/
+ether export results/ai_protein_design/ --format csv
+ether export results/ai_protein_design/ --format bibtex
 ```
 
 ## Create Your Own Radar
@@ -247,9 +246,9 @@ signal_profile:
 ### Step 5: Build, View, and Publish
 
 ```bash
-researchradar build radars/ai_protein_design.yml
-researchradar serve results/ai_protein_design/
-researchradar publish results/ai_protein_design/
+ether build radars/ai_protein_design.yml
+ether serve results/ai_protein_design/
+ether publish results/ai_protein_design/
 ```
 
 ## Example Radar Configuration
@@ -349,7 +348,7 @@ Why ranked highly:
 Users can clone a radar and modify it.
 
 ```bash
-researchradar clone examples/cancer_evolution.yml my_leukemia_radar.yml
+ether clone examples/cancer_evolution.yml my_leukemia_radar.yml
 ```
 
 Then edit:
@@ -367,7 +366,7 @@ queries:
 Build:
 
 ```bash
-researchradar build my_leukemia_radar.yml
+ether build my_leukemia_radar.yml
 ```
 
 ## User Levels
@@ -385,7 +384,7 @@ Enter topic -> choose template -> adjust sliders -> generate dashboard
 For scientists who want reproducibility:
 
 ```bash
-researchradar build my_topic.yml
+ether build my_topic.yml
 ```
 
 This is ideal for labs, papers, and GitHub workflows.
@@ -417,21 +416,21 @@ For institutions and advanced users:
 |-- scripts/
 |   `-- daily_pubmed_watch_v2.py
 |-- logo/
-|   `-- ResearchRadar_logo.png
+|   `-- ETHER_logo.png
 |-- docs/
 |   `-- index.html
 |-- tests/
 |   `-- test_scoring.py
 |-- manuscript/
-|   `-- researchradar_manuscript.md
+|   `-- ether_manuscript.md
 |-- MANUSCRIPT_PLAN.md
 `-- .github/workflows/
-    `-- litscan-radar.yml
+    `-- ether-radar.yml
 ```
 
 ## Automation
 
-ResearchRadar runs via GitHub Actions:
+ETHER runs via GitHub Actions:
 
 - daily radar update
 - weekly deep scan
@@ -442,7 +441,7 @@ ResearchRadar runs via GitHub Actions:
 Workflow:
 
 ```text
-.github/workflows/litscan-radar.yml
+.github/workflows/ether-radar.yml
 ```
 
 ## Validation Plan
@@ -454,7 +453,7 @@ Minimum evaluation:
 - use cancer evolution, viral evolution, and metagenomics case studies
 - retrieve 100-300 papers per case study
 - manually label relevance
-- compare ResearchRadar ranking against baselines
+- compare ETHER ranking against baselines
 - report Precision@10, Precision@25, nDCG@10, and Recall@50
 
 Baselines:
@@ -462,26 +461,25 @@ Baselines:
 - date-only ranking
 - keyword-count ranking
 - PubMed relevance ranking
-- ResearchRadar full model
+- ETHER full model
 
 Modest claim:
 
-> ResearchRadar improves prioritization of expert-relevant papers compared with
+> ETHER improves prioritization of expert-relevant papers compared with
 > date-only and keyword-count baselines.
 
-ResearchRadar is not a replacement for systematic review. It is a surveillance
+ETHER is not a replacement for systematic review. It is a surveillance
 and prioritization layer.
 
 ## Paper Framing
 
 Working title:
 
-**ResearchRadar: customizable signal-weighted dashboards for biomedical
-literature monitoring**
+**ETHER: Emerging Topic Horizon Engine for Research**
 
 Core novelty statement:
 
-> ResearchRadar introduces a configurable signal-weighted framework for
+> ETHER introduces a configurable signal-weighted framework for
 > scientific literature surveillance, allowing users to define not only which
 > topics to search, but which types of evidence, methods, applications, and
 > emerging research signals should influence paper prioritization.

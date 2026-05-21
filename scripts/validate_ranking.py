@@ -1,4 +1,4 @@
-"""Compute ranking metrics for ResearchRadar validation datasets.
+"""Compute ranking metrics for ETHER validation datasets.
 
 Input CSV columns:
 case_study,method,rank,relevance

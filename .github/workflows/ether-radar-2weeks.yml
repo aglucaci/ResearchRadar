@@ -1,4 +1,4 @@
-name: ResearchRadar Biweekly
+name: ETHER Biweekly
 
 on:
   workflow_dispatch:
@@ -10,17 +10,17 @@ permissions:
   contents: write
 
 concurrency:
-  group: researchradar-${{ github.ref }}
+  group: ether-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
-  researchradar:
+  ether:
     runs-on: ubuntu-latest
 
     env:
       PYTHONUNBUFFERED: "1"
-      RESEARCHRADAR_SCRIPT: scripts/daily_pubmed_watch_v2.py
-      RESEARCHRADAR_SITE_DIR: docs
+      ETHER_SCRIPT: scripts/daily_pubmed_watch_v2.py
+      ETHER_SITE_DIR: docs
 
       # 14-day rolling window
       DAYS: "14"
@@ -36,8 +36,8 @@ jobs:
       - name: Validate required files exist
         run: |
           set -euo pipefail
-          test -f "${RESEARCHRADAR_SCRIPT}" || (echo "Missing ${RESEARCHRADAR_SCRIPT}" && exit 1)
-          test -d "${RESEARCHRADAR_SITE_DIR}" || (echo "Missing ${RESEARCHRADAR_SITE_DIR}/ directory" && exit 1)
+          test -f "${ETHER_SCRIPT}" || (echo "Missing ${ETHER_SCRIPT}" && exit 1)
+          test -d "${ETHER_SITE_DIR}" || (echo "Missing ${ETHER_SITE_DIR}/ directory" && exit 1)
 
       - name: Setup Python
         uses: actions/setup-python@v5
@@ -50,16 +50,16 @@ jobs:
           python -m pip install --upgrade pip
           pip install requests
 
-      - name: Run ResearchRadar (14-day lookback)
+      - name: Run ETHER (14-day lookback)
         run: |
           set -euo pipefail
-          echo "Running ResearchRadar DAYS=${DAYS} MAX=${MAX_RESULTS}"
-          python "${RESEARCHRADAR_SCRIPT}" --days "${DAYS}" --max "${MAX_RESULTS}"
+          echo "Running ETHER DAYS=${DAYS} MAX=${MAX_RESULTS}"
+          python "${ETHER_SCRIPT}" --days "${DAYS}" --max "${MAX_RESULTS}"
 
       - name: Sanity check output
         run: |
           set -euo pipefail
-          test -f "${RESEARCHRADAR_SITE_DIR}/index.html" || (echo "Missing ${RESEARCHRADAR_SITE_DIR}/index.html after run" && exit 1)
+          test -f "${ETHER_SITE_DIR}/index.html" || (echo "Missing ${ETHER_SITE_DIR}/index.html after run" && exit 1)
 
       - name: Commit changes (only if changed)
         run: |
@@ -67,13 +67,13 @@ jobs:
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
 
-          git add "${RESEARCHRADAR_SITE_DIR}/"
+          git add "${ETHER_SITE_DIR}/"
 
           if git diff --cached --quiet; then
             echo "No changes to commit."
             exit 0
           fi
 
-          MSG="ResearchRadar update $(date -u +'%Y-%m-%d')"
+          MSG="ETHER update $(date -u +'%Y-%m-%d')"
           git commit -m "$MSG"
           git push

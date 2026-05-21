@@ -596,11 +596,13 @@ def rank_and_trim(items: List[Dict[str, Any]], max_items: int) -> List[Dict[str,
 SITE_NAV = [
     ("Home", ""),
     ("Create Radar", "create/"),
-    ("Explore Radars", "explore/"),
+    ("Demo Radars", "explore/"),
     ("Templates", "templates/"),
-    ("Examples", "examples/"),
-    ("Methodology", "methodology/"),
+    ("Community", "community/"),
+    ("Methods", "methodology/"),
     ("Docs", "docs/"),
+    ("API", "api/"),
+    ("Roadmap", "roadmap/"),
     ("About", "about/"),
 ]
 
@@ -635,8 +637,8 @@ def _site_header(active: str, root_prefix: str = "../") -> str:
         nav.append(f"<a{cls} href='{target}'>{html.escape(label)}</a>")
     return (
         "<div class='topbar'><div class='brand'>"
-        "<img src='https://raw.githubusercontent.com/aglucaci/litscan/refs/heads/main/logo/ResearchRadar_logo.png' alt='ResearchRadar Logo' class='logo'/>"
-        "<div class='wordmark'>ResearchRadar</div></div>"
+        "<img src='https://raw.githubusercontent.com/aglucaci/ETHER/refs/heads/main/logo/ETHER_logo.png' alt='ETHER Logo' class='logo'/>"
+        "<div class='wordmark'>ETHER</div></div>"
         f"<nav class='appnav'>{''.join(nav)}</nav></div>"
     )
 
@@ -650,12 +652,12 @@ def _write_site_page(outdir_docs: str, slug: str, title: str, subtitle: str, act
     content = (
         "<!doctype html><html><head><meta charset='utf-8'/>"
         "<meta name='viewport' content='width=device-width,initial-scale=1'/>"
-        f"<title>{html.escape(title)} - ResearchRadar</title>"
+        f"<title>{html.escape(title)} - ETHER</title>"
         f"{_page_css()}</head><body>"
         f"{_site_header(active, root_prefix)}"
         f"<section class='hero'><h1>{html.escape(title)}</h1><p>{html.escape(subtitle)}</p></section>"
         f"{body}"
-        "<div class='muted' style='margin:28px 0 10px'>ResearchRadar is open-source literature intelligence infrastructure. Static pages are generated with the radar dashboard.</div>"
+        "<div class='muted' style='margin:28px 0 10px'>ETHER is the Emerging Topic Horizon Engine for Research. Static pages are generated with the radar dashboard.</div>"
         "</body></html>"
     )
     with open(page_path, "w", encoding="utf-8") as f:
@@ -692,16 +694,21 @@ def _write_product_pages(outdir_docs: str, payload: Dict[str, Any]) -> None:
         outdir_docs,
         "create",
         "Create Radar",
-        "Build a guided literature radar from a topic, template, sources, priority terms, and scoring weights.",
+        "Define a topic, choose literature sources, and configure weighted signals for a living research radar.",
         "Create Radar",
         """
 <div class='steps'>
-  <div class='step'><div><h3>Enter topic</h3><p>Start with a field, disease, method, organism, or research question.</p><p><span class='chip'>AI for protein design</span><span class='chip'>Cancer evolution</span><span class='chip'>Urban microbiome</span></p></div></div>
-  <div class='step'><div><h3>Choose template</h3><p>Pick a starter radar so sources, priority terms, and scoring weights are useful immediately.</p></div></div>
-  <div class='step'><div><h3>Select sources</h3><p>Choose PubMed first, then add bioRxiv, medRxiv, arXiv, CrossRef, Semantic Scholar, RSS feeds, or DOI lists as adapters mature.</p></div></div>
-  <div class='step'><div><h3>Add priority terms</h3><p>Define what counts as a research signal: methods, datasets, validation, clinical relevance, surveillance relevance, or custom terms.</p></div></div>
-  <div class='step'><div><h3>Adjust scoring weights</h3><p>Tune recency, topic relevance, priority signals, source metadata, and optional feedback.</p></div></div>
-  <div class='step'><div><h3>Generate dashboard</h3><p>Publish a live dashboard with ranked papers, explanations, filters, saved papers, and exports.</p></div></div>
+  <div class='step'><div><h3>Define topic</h3><p><b>Topic:</b> Urban microbiome surveillance</p><p>Track built-environment microbiomes, metagenomics, AMR, pathogen surveillance, and environmental sequencing.</p><p><span class='chip'>urban microbiome</span><span class='chip'>metagenomics</span><span class='chip'>AMR</span><span class='chip'>wastewater</span></p></div></div>
+  <div class='step'><div><h3>Add negative filters</h3><p>Remove irrelevant results with terms such as soil only, agriculture only, or non-microbial ecology.</p></div></div>
+  <div class='step'><div><h3>Choose sources</h3><p>Select PubMed, bioRxiv, medRxiv, Crossref, OpenAlex, Semantic Scholar, ClinicalTrials.gov, NIH Reporter, or patents.</p></div></div>
+  <div class='step'><div><h3>Configure priority signals</h3><p>Choose what makes a paper important: recency, keyword match, citation velocity, watchlists, funding, methods, clinical relevance, and open science.</p></div></div>
+  <div class='step'><div><h3>Adjust weights</h3><p>Use sliders for Recency 30%, Keyword relevance 25%, Citation velocity 15%, Journal priority 10%, Author watchlist 10%, and Open data/code 10%.</p></div></div>
+  <div class='step'><div><h3>Publish dashboard</h3><p>Save a unique radar URL, subscribe to email/RSS alerts, export results, or fork a public radar.</p></div></div>
+</div>
+<div class='grid'>
+  <div class='card'><h3>Biomedical sources</h3><p>PubMed, bioRxiv, medRxiv, ClinicalTrials.gov, NIH Reporter.</p></div>
+  <div class='card'><h3>Scholarly graph</h3><p>Crossref, OpenAlex, Semantic Scholar, citation context, and metadata coverage.</p></div>
+  <div class='card'><h3>Commercial signal</h3><p>Optional patents, company-linked papers, translational biomarkers, and platform technologies.</p></div>
 </div>
 <div class='panel'><h2>Starter config preview</h2><div class='yaml'>radar_name: AI Protein Design Radar
 sources:
@@ -718,6 +725,7 @@ signal_profile:
       - wet-lab validation
       - binding assay
     weight: 2.5</div></div>
+<div class='panel'><h2>Core user functions</h2><p><span class='chip'>Create custom radar</span><span class='chip'>Save radar</span><span class='chip'>Edit signals</span><span class='chip'>Add/remove keywords</span><span class='chip'>Set update frequency</span><span class='chip'>Export CSV/JSON/BibTeX/RIS/Markdown</span><span class='chip'>Subscribe to alerts</span><span class='chip'>Share or fork radar</span></p></div>
 """,
     )
 
@@ -735,15 +743,18 @@ signal_profile:
   <div class='card'><h3>Cancer Evolution Radar</h3><p>Tracks clonal evolution, therapy resistance, tumor phylogeny, and single-cell methods.</p><p><span class='chip'>Updated today</span><span class='chip'>184 papers</span><span class='chip'>12 emerging signals</span></p><a class='btn primary' href='../radar/cancer-evolution/'>View Radar</a><a class='btn' href='../create/'>Clone</a></div>
   <div class='card'><h3>AI Drug Discovery Radar</h3><p>Tracks generative chemistry, docking, screening, target discovery, benchmarks, and validation.</p><p><span class='chip'>Updated weekly</span><span class='chip'>96 papers</span><span class='chip'>8 emerging signals</span></p><a class='btn primary' href='../radar/cancer-evolution/'>View Radar</a><a class='btn' href='../create/'>Clone</a></div>
   <div class='card'><h3>Urban Microbiome Radar</h3><p>Tracks built environment microbiomes, wastewater, city-scale sampling, and public health surveillance.</p><p><span class='chip'>Updated weekly</span><span class='chip'>73 papers</span><span class='chip'>6 emerging signals</span></p><a class='btn primary' href='../radar/cancer-evolution/'>View Radar</a><a class='btn' href='../create/'>Clone</a></div>
+  <div class='card'><h3>RNA Virus Discovery Radar</h3><p>Tracks metagenomes, segmented genomes, host range, and surveillance signals.</p><p><span class='chip'>Public template</span><span class='chip'>Forkable</span></p><a class='btn primary' href='../create/'>Use template</a></div>
+  <div class='card'><h3>Spatial Transcriptomics Radar</h3><p>Tracks atlases, methods, disease applications, datasets, and tool papers.</p><p><span class='chip'>Methods radar</span><span class='chip'>Datasets</span></p><a class='btn primary' href='../create/'>Use template</a></div>
+  <div class='card'><h3>Biosecurity and Biodefense Radar</h3><p>Tracks diagnostics, emerging threats, surveillance, and policy-relevant papers.</p><p><span class='chip'>Community radar</span><span class='chip'>Alerts ready</span></p><a class='btn primary' href='../create/'>Use template</a></div>
 </div>
 """
-    _write_site_page(outdir_docs, "explore", "Explore Public Radars", "Discover featured, trending, and recently updated public radars. Clone any radar to make it your own.", "Explore Radars", public_cards)
+    _write_site_page(outdir_docs, "explore", "Demo Radars", "Public example dashboards for emerging research fields and reusable radar templates.", "Demo Radars", public_cards)
 
     _write_site_page(
         outdir_docs,
         "examples",
         "Examples",
-        "Finished dashboards that show what ResearchRadar can do and link back to reproducible configs.",
+        "Finished dashboards that show what ETHER can do and link back to reproducible configs.",
         "Examples",
         """
 <div class='grid'>
@@ -757,26 +768,32 @@ signal_profile:
     _write_site_page(
         outdir_docs,
         "methodology",
-        "Methodology",
-        "How the Research Relevance Score ranks papers using transparent, user-defined signals.",
-        "Methodology",
+        "Methods",
+        "How ETHER ranks papers with transparent, user-defined signal weights.",
+        "Methods",
         """
-<div class='panel'><p><b>ResearchRadar does not decide whether a paper is good.</b> It ranks papers according to the topic and priority signals defined by the user.</p></div>
+<div class='panel'><p><b>ETHER does not decide whether a paper is good.</b> It ranks papers according to the topic and priority signals defined by the user.</p></div>
 <div class='grid'>
   <div class='card'><h3>Topic relevance</h3><p>Does the title, abstract, and metadata match the radar query set?</p></div>
   <div class='card'><h3>Recency weighting</h3><p>Recent papers can receive a boost, with decay over time.</p></div>
+  <div class='card'><h3>Citation velocity</h3><p>Rapidly cited papers can rise when citation metadata is available.</p></div>
   <div class='card'><h3>Priority term matching</h3><p>Matched terms from the signal profile increase score according to category weights.</p></div>
-  <div class='card'><h3>Source metadata</h3><p>Journal, source, publication type, DOI, PMID, and preprint metadata can influence filtering and ranking.</p></div>
+  <div class='card'><h3>Source priority</h3><p>Journal, preprint server, DOI, PMID, and source metadata can influence filtering and ranking.</p></div>
   <div class='card'><h3>User-defined weights</h3><p>Users decide whether methods, clinical relevance, datasets, reviews, or recency matter most.</p></div>
-  <div class='card'><h3>Limitations</h3><p>Abstract-based scoring can miss subtle relevance and is not a substitute for expert review or systematic review.</p></div>
+  <div class='card'><h3>Off-topic penalties</h3><p>Negative keywords, broad-topic penalties, duplicate penalties, and review penalties reduce noise.</p></div>
 </div>
 <div class='panel'><h2>Formula</h2><div class='yaml'>Research Relevance Score =
 topic relevance
-+ recency
-+ priority term matches
-+ method signals
-+ source metadata
-+ optional user feedback</div></div>
++ Recency weight
++ Source priority
++ Citation velocity
++ Author/lab watchlist
++ Open science signal
++ Clinical/translational signal
++ User feedback signal
+- Off-topic penalty
+- Duplicate penalty</div></div>
+<div class='panel'><h2>User-facing explanation</h2><p>Each paper says why it ranked highly: strong topic match, recent publication, code/data availability, prioritized source, watched author or institution, or membership in a growing topic cluster.</p></div>
 """,
     )
 
@@ -784,7 +801,7 @@ topic relevance
         outdir_docs,
         "docs",
         "Documentation",
-        "Use ResearchRadar from the web workflow, YAML configs, CLI, and GitHub Pages publishing.",
+        "Use ETHER from the web workflow, YAML configs, CLI, and GitHub Pages publishing.",
         "Docs",
         """
 <div class='grid'>
@@ -795,6 +812,7 @@ topic relevance
   <div class='card'><h3>Exporting results</h3><p>Use CSV, JSON, BibTeX, RIS, and Markdown outputs for research workflows.</p></div>
   <div class='card'><h3>Publishing</h3><p>Static dashboards can be published through GitHub Pages or similar hosts.</p></div>
 </div>
+<div class='panel'><h2>Website map</h2><p><span class='chip'>Home</span><span class='chip'>Demo Radars</span><span class='chip'>Create Radar</span><span class='chip'>Docs</span><span class='chip'>GitHub</span><span class='chip'>API</span><span class='chip'>Methods</span><span class='chip'>Templates</span><span class='chip'>Community</span><span class='chip'>Roadmap</span><span class='chip'>About</span></p></div>
 <div class='panel'><h2>Current prototype</h2><div class='yaml'>python scripts/daily_pubmed_watch_v2.py --days 14 --max 25 --docs-dir docs
 python -m unittest tests.test_scoring</div></div>
 """,
@@ -818,8 +836,8 @@ python -m unittest tests.test_scoring</div></div>
     _write_site_page(
         outdir_docs,
         "about",
-        "About ResearchRadar",
-        "ResearchRadar helps researchers move from passive literature alerts to active, configurable research surveillance.",
+        "About ETHER",
+        "Emerging Topic Horizon Engine for Research: an open-source literature intelligence platform for live research radars.",
         "About",
         """
 <div class='grid'>
@@ -828,6 +846,62 @@ python -m unittest tests.test_scoring</div></div>
   <div class='card wide'><h3>Open-source philosophy</h3><p>The academic version prioritizes transparent scoring, reproducible configs, public templates, and self-hostable dashboards.</p></div>
   <div class='card wide'><h3>Citation</h3><p>Use the manuscript draft and repository release DOI once available.</p></div>
 </div>
+""",
+    )
+
+    _write_site_page(
+        outdir_docs,
+        "community",
+        "Community Radars",
+        "Browse shared public radars, fork useful configurations, and contribute templates.",
+        "Community",
+        """
+<div class='grid'>
+  <div class='card'><h3>Cancer evolution</h3><p>Clonal selection, therapy resistance, tumor phylogeny.</p></div>
+  <div class='card'><h3>Antimicrobial resistance</h3><p>AMR genes, surveillance, clinical and environmental signals.</p></div>
+  <div class='card'><h3>RNA virus discovery</h3><p>Metagenomes, segmented genomes, host range, and surveillance.</p></div>
+  <div class='card'><h3>AI drug discovery</h3><p>Generative chemistry, docking, benchmarks, validation.</p></div>
+  <div class='card'><h3>Spatial transcriptomics</h3><p>Atlases, methods, disease applications, datasets.</p></div>
+  <div class='card'><h3>Biosecurity and biodefense</h3><p>Emerging threats, diagnostics, surveillance, policy-relevant papers.</p></div>
+</div>
+<div class='panel'><h2>Open-source community</h2><p>Public radars should be cloneable, inspectable, and backed by reusable YAML configs so scientific communities can tune their own literature radar.</p></div>
+""",
+    )
+
+    _write_site_page(
+        outdir_docs,
+        "api",
+        "API",
+        "Developer access for radar configs, ranked papers, alerts, and exports.",
+        "API",
+        """
+<div class='grid'>
+  <div class='card'><h3>Radar configs</h3><p>Create, update, fork, and version radar definitions.</p></div>
+  <div class='card'><h3>Ranked results</h3><p>Read paper tables with scores, signal breakdowns, sources, and explanations.</p></div>
+  <div class='card'><h3>Exports</h3><p>Generate CSV, JSON, BibTeX, RIS, Markdown, and weekly digest artifacts.</p></div>
+  <div class='card'><h3>Alerts</h3><p>Subscribe to high-signal, weekly digest, author, journal, preprint, topic spike, and citation velocity alerts.</p></div>
+  <div class='card'><h3>Integrations</h3><p>Connect dashboards to lab reports, manuscript bibliographies, notebooks, and internal intelligence workflows.</p></div>
+  <div class='card'><h3>Self-hosting</h3><p>Run the open-source workflow on GitHub Pages or your own infrastructure.</p></div>
+</div>
+""",
+    )
+
+    _write_site_page(
+        outdir_docs,
+        "roadmap",
+        "Roadmap",
+        "The MVP and product path for a living scientific radar.",
+        "Roadmap",
+        """
+<div class='steps'>
+  <div class='step'><div><h3>Create a radar from topic keywords</h3><p>Start with topic, description, keywords, and negative filters.</p></div></div>
+  <div class='step'><div><h3>Query PubMed and bioRxiv</h3><p>Expand source adapters over time to medRxiv, Crossref, OpenAlex, Semantic Scholar, patents, grants, and trials.</p></div></div>
+  <div class='step'><div><h3>Rank with transparent signal weights</h3><p>Show exactly why each paper ranked highly.</p></div></div>
+  <div class='step'><div><h3>Display live dashboards</h3><p>Top papers, trend graphs, topic clusters, sources, alerts, and exports.</p></div></div>
+  <div class='step'><div><h3>Save, dismiss, and export papers</h3><p>Support reading lists, notes, BibTeX, CSV, Markdown, and manuscript bibliography actions.</p></div></div>
+  <div class='step'><div><h3>Weekly email and RSS alerts</h3><p>Notify users when high-priority papers or topic spikes appear.</p></div></div>
+</div>
+<div class='panel'><h2>Strong product framing</h2><p>ETHER is not just a PubMed search wrapper. It is a configurable research radar that turns scientific literature into a ranked, explainable, updateable intelligence dashboard.</p></div>
 """,
     )
 
@@ -850,14 +924,35 @@ python -m unittest tests.test_scoring</div></div>
         )
     paper_cards.append("</div>")
     radar_body = (
-        "<div class='panel'><h2>Summary</h2><p>Cancer Evolution Radar tracks clonal evolution, therapy resistance, tumor phylogeny, and single-cell methods.</p>"
-        "<p><span class='chip'>Top papers</span><span class='chip'>Emerging signals</span><span class='chip'>Topic trends</span><span class='chip'>Saved papers</span><span class='chip'>Exports</span></p></div>"
-        "<div class='grid'><div class='card'><h3>Emerging signals</h3><p>therapy resistance, single-cell lineage tracing, tumor phylogeny</p></div>"
-        "<div class='card'><h3>Source distribution</h3><p>PubMed-indexed papers in the current prototype.</p></div>"
-        "<div class='card'><h3>Exports</h3><p>CSV, JSON, BibTeX, RIS, Markdown briefing.</p></div></div>"
+        "<div class='panel'><h2>Dashboard URL</h2><p><span class='mono'>ether.org/radar/urban-microbiome-surveillance</span></p><p>Each radar gets a shareable URL with sortable top papers, signal breakdowns, trends, clusters, alerts, and exports.</p></div>"
+        "<div class='grid'><div class='card'><h3>Top-ranked papers</h3><p>Sortable table with rank, title, year, source, score, and why it matters.</p></div>"
+        "<div class='card'><h3>Signal breakdown</h3><p>Topic relevance, recency, citation velocity, journal/source priority, open science, and watchlist scores.</p></div>"
+        "<div class='card'><h3>Literature trend over time</h3><p>Papers per month, source breakdown, top journals, keyword trends, citation velocity, and novelty score.</p></div>"
+        "<div class='card'><h3>Topic clusters</h3><p>Methods and tools, disease applications, surveillance, mechanisms, reviews, datasets, and resources.</p></div>"
+        "<div class='card'><h3>Emerging signals</h3><p>What is changing this week: topic spikes, new preprints, tool papers, and fast-growing clusters.</p></div>"
+        "<div class='card'><h3>Paper detail pages</h3><p>Title, authors, DOI, abstract, ETHER summary, related papers, notes, watchlist actions, and export tools.</p></div></div>"
+        "<div class='panel'><h2>Signal score example</h2><div class='yaml'>Topic relevance         34/40\nRecency                 18/20\nCitation velocity        8/10\nJournal/source priority  7/10\nOpen science            10/10\nUser watchlist           5/10</div></div>"
         + "".join(paper_cards)
     )
-    _write_site_page(outdir_docs, os.path.join("radar", "cancer-evolution"), "Cancer Evolution Radar", "A sample radar dashboard with ranked papers, explanations, filters, trends, and exports.", "Explore Radars", radar_body)
+    _write_site_page(outdir_docs, os.path.join("radar", "cancer-evolution"), "Urban Microbiome Surveillance Radar", "A sample dashboard with ranked papers, explanations, filters, trends, clusters, alerts, and exports.", "Demo Radars", radar_body)
+
+    _write_site_page(
+        outdir_docs,
+        os.path.join("paper", "example"),
+        "Paper Detail",
+        "A clean page for one paper with source metadata, ETHER summary, signal explanation, related papers, and user actions.",
+        "Demo Radars",
+        """
+<div class='panel'><h2>Paper summary</h2><p><b>Title:</b> Detecting RNA virus genome segments from metagenomic co-occurrence patterns</p><p><b>Authors:</b> Example Lab Consortium</p><p><b>Source:</b> bioRxiv · DOI available · Published 2026</p><p><b>Abstract:</b> This example paper describes a computational workflow for reconstructing segmented RNA virus genomes from complex metagenomic and metatranscriptomic samples.</p><p><a class='btn'>Source link</a><a class='btn'>PDF</a></p></div>
+<div class='grid'>
+  <div class='card wide'><h3>One-sentence takeaway</h3><p>This paper introduces a new method for detecting RNA virus genome segments from metagenomic co-occurrence patterns.</p></div>
+  <div class='card wide'><h3>Why it matters</h3><p>It addresses a bottleneck in viral discovery by helping reconstruct segmented RNA virus genomes from complex samples.</p></div>
+  <div class='card wide'><h3>Best use case</h3><p>Useful for viromics, metatranscriptomics, and environmental surveillance studies.</p></div>
+  <div class='card wide'><h3>Related papers</h3><p>Prior methods, competing tools, follow-up work, and papers from the same lab.</p></div>
+</div>
+<div class='panel'><h2>User actions</h2><p><span class='chip'>Save paper</span><span class='chip'>Dismiss paper</span><span class='chip'>Add to reading list</span><span class='chip'>Mark important</span><span class='chip'>Export citation</span><span class='chip'>Add note</span><span class='chip'>Add to manuscript bibliography</span><span class='chip'>Share paper</span><span class='chip'>Add author to watchlist</span><span class='chip'>Add keyword to radar</span></p></div>
+""",
+    )
 
 
 def write_outputs(outdir_docs: str, payload: Dict[str, Any]) -> None:
@@ -869,7 +964,7 @@ def write_outputs(outdir_docs: str, payload: Dict[str, Any]) -> None:
     # Markdown
     md_path = f"{outdir_docs}/latest.md"
     lines: List[str] = []
-    lines.append("# ResearchRadar scientific literature radar\n")
+    lines.append("# ETHER scientific literature radar\n")
     lines.append(f"**Updated:** {payload['generated_at_local']}  ")
     lines.append(f"**Window:** last {payload['days']} day(s)  ")
     lines.append("**Ranking:** Research Relevance Score (topic priority + research signals + source metadata + recency + cross-domain bridge)\n")
@@ -902,10 +997,10 @@ def write_outputs(outdir_docs: str, payload: Dict[str, Any]) -> None:
     html_body: List[str] = []
     html_body.append("<!doctype html><html><head><meta charset='utf-8'/>")
     html_body.append("<meta name='viewport' content='width=device-width,initial-scale=1'/>")
-    html_body.append("<link rel='icon' type='image/png' href='https://raw.githubusercontent.com/aglucaci/litscan/refs/heads/main/logo/ResearchRadar_logo.png'/>")
-    html_body.append("<link rel='shortcut icon' type='image/png' href='https://raw.githubusercontent.com/aglucaci/litscan/refs/heads/main/logo/ResearchRadar_logo.png'/>")
-    html_body.append("<link rel='apple-touch-icon' href='https://raw.githubusercontent.com/aglucaci/litscan/refs/heads/main/logo/ResearchRadar_logo.png'/>")
-    html_body.append("<title>ResearchRadar - Live Literature Radars for Science</title>")
+    html_body.append("<link rel='icon' type='image/png' href='https://raw.githubusercontent.com/aglucaci/ETHER/refs/heads/main/logo/ETHER_logo.png'/>")
+    html_body.append("<link rel='shortcut icon' type='image/png' href='https://raw.githubusercontent.com/aglucaci/ETHER/refs/heads/main/logo/ETHER_logo.png'/>")
+    html_body.append("<link rel='apple-touch-icon' href='https://raw.githubusercontent.com/aglucaci/ETHER/refs/heads/main/logo/ETHER_logo.png'/>")
+    html_body.append("<title>ETHER - Live Literature Radars for Science</title>")
     html_body.append("""
 <style>
   :root{
@@ -989,7 +1084,23 @@ def write_outputs(outdir_docs: str, payload: Dict[str, Any]) -> None:
   .why ul{margin:0;padding-left:18px;color:var(--muted)}
   .actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
   .score-pill{background:#ecfdf5;border-color:#99f6e4;color:#064e3b}
+  .hero-actions{display:flex;flex-wrap:wrap;gap:10px;margin:16px 0 18px}
+  .dashboard-preview{border:1px solid var(--border);border-radius:8px;background:#fff;box-shadow:var(--shadow);padding:14px;margin:18px 0 8px}
+  .dash-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;border-bottom:1px solid var(--border);padding-bottom:10px;margin-bottom:10px}
+  .dash-head h2{margin:0;font-size:20px;color:var(--ink)}.dash-head p{margin:3px 0 0;color:var(--muted)}
+  .dash-grid{display:grid;grid-template-columns:1.3fr .9fr;gap:12px}
+  .paper-row{display:grid;grid-template-columns:34px 1fr 58px;gap:10px;align-items:start;border:1px solid var(--border);border-radius:8px;padding:10px;margin-bottom:8px;background:var(--panel)}
+  .rank{display:flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:999px;background:var(--ink);color:#fff;font-weight:700}
+  .paper-title{font-weight:700;color:var(--ink)}.paper-why{font-size:.9em;color:var(--muted);margin-top:3px}
+  .scorebox{font-weight:800;color:#064e3b;text-align:right}
+  .spark{height:92px;border:1px solid var(--border);border-radius:8px;background:linear-gradient(180deg,#fff,#f6f8fb);display:flex;align-items:end;gap:7px;padding:10px}
+  .spark span{flex:1;border-radius:6px 6px 0 0;background:var(--accent);min-height:14px}
+  .clusters{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px}
+  .alert-panel{border:1px solid #99f6e4;background:#ecfdf5;color:#064e3b;border-radius:8px;padding:10px;font-weight:650;margin-top:10px}
+  .source-strip{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+  .source-strip span{border:1px solid var(--border);background:#fff;border-radius:999px;padding:3px 8px;font-size:.84em;color:var(--muted)}
   @media (max-width: 980px){ .stat{grid-column:span 6} }
+  @media (max-width: 980px){ .dash-grid{grid-template-columns:1fr} }
   @media (max-width: 980px){ .value .stat,.template,.control,.control.wide,.step,.builder-main,.builder-side,.insight{grid-column:span 6} }
   @media (max-width: 640px){ .hero h1{font-size:34px}.searchbox{align-items:stretch;flex-direction:column}.stat,.value .stat,.template,.control,.control.wide,.control.full,.step,.builder-main,.builder-side,.insight{grid-column:span 12}.topbar{align-items:flex-start;flex-direction:column}.weight-row{grid-template-columns:1fr} }
 
@@ -1020,19 +1131,21 @@ def write_outputs(outdir_docs: str, payload: Dict[str, Any]) -> None:
     html_body.append("<header>")
     html_body.append("<div class='topbar'>")
     html_body.append("<div class='brand'>")
-    html_body.append("<img src='https://raw.githubusercontent.com/aglucaci/litscan/refs/heads/main/logo/ResearchRadar_logo.png' alt='ResearchRadar Logo' class='logo'/>")
-    html_body.append("<div class='wordmark'>ResearchRadar</div>")
+    html_body.append("<img src='https://raw.githubusercontent.com/aglucaci/ETHER/refs/heads/main/logo/ETHER_logo.png' alt='ETHER Logo' class='logo'/>")
+    html_body.append("<div class='wordmark'>ETHER</div>")
     html_body.append("</div>")
     html_body.append("<nav class='appnav'>")
     html_body.append("<a href='#home'>Home</a>")
     html_body.append("<a href='create/'>Create Radar</a>")
-    html_body.append("<a href='explore/'>Explore Radars</a>")
+    html_body.append("<a href='explore/'>Demo Radars</a>")
     html_body.append("<a href='templates/'>Templates</a>")
-    html_body.append("<a href='examples/'>Examples</a>")
-    html_body.append("<a href='methodology/'>Methodology</a>")
+    html_body.append("<a href='community/'>Community</a>")
+    html_body.append("<a href='methodology/'>Methods</a>")
     html_body.append("<a href='docs/'>Docs</a>")
+    html_body.append("<a href='api/'>API</a>")
+    html_body.append("<a href='roadmap/'>Roadmap</a>")
     html_body.append("<a href='about/'>About</a>")
-    html_body.append("<a href='https://github.com/aglucaci/litscan' target='_blank' rel='noopener'>GitHub</a>")
+    html_body.append("<a href='https://github.com/aglucaci/ETHER' target='_blank' rel='noopener'>GitHub</a>")
     html_body.append("</nav>")
     html_body.append("<div class='meta'>")
     html_body.append(f"<span class='chip'><b>Updated</b> {html.escape(payload['generated_at_local'])}</span>")
@@ -1041,24 +1154,28 @@ def write_outputs(outdir_docs: str, payload: Dict[str, Any]) -> None:
     html_body.append("</div>")
 
     html_body.append("<section class='hero' id='home'>")
-    html_body.append("<h1>ResearchRadar</h1>")
-    html_body.append(
-        "<p class='subtitle'>Turn any research topic into a live literature radar.</p>"
-    )
-    html_body.append("<div class='searchbox'>")
-    html_body.append("<input type='text' value='cancer evolution and therapy resistance' aria-label='What do you want to track?'/>")
-    html_body.append("<button class='btn primary'>Create a Radar</button>")
-    html_body.append("<a class='btn' href='#templates'>Explore Examples</a>")
-    html_body.append("</div>")
-    html_body.append("<p class='muted' style='max-width:820px;margin-top:12px'>Create customizable dashboards that track new papers, emerging trends, and scientific signals across PubMed, preprints, and scholarly databases.</p>")
-    html_body.append("<div class='examples'><span>Examples:</span>")
-    for ex in ["cancer evolution", "AI drug discovery", "wastewater surveillance", "protein design"]:
-        html_body.append(f"<a href='#templates'>{html.escape(ex)}</a>")
-    html_body.append("</div>")
+    html_body.append("<h1>Turn any research topic into a live literature radar.</h1>")
+    html_body.append("<p class='subtitle'>ETHER helps researchers, labs, biotech teams, and scientific communities track emerging papers using customizable literature sources, weighted signals, and ranked dashboards.</p>")
+    html_body.append("<div class='hero-actions'><a class='btn primary' href='create/'>Create a Radar</a><a class='btn' href='#demo'>View Demo Dashboard</a><a class='btn' href='https://github.com/aglucaci/ETHER' target='_blank' rel='noopener'>GitHub</a></div>")
+    html_body.append("<div class='dashboard-preview' aria-label='Interactive dashboard preview'>")
+    html_body.append("<div class='dash-head'><div><h2>RNA virus discovery in metagenomes</h2><p>Live dashboard preview: ranked papers, signal scores, trends, clusters, alerts, and sources.</p></div><span class='chip score-pill'>New high-priority paper detected</span></div>")
+    html_body.append("<div class='dash-grid'><div>")
+    for rank, title, score, why in [
+        ("1", "Segmented RNA virus genomes reconstructed from wastewater metatranscriptomes", "94", "recent preprint, strong topic match, open workflow"),
+        ("2", "Benchmarking viral discovery tools across complex metagenomes", "89", "methods signal, dataset, code available"),
+        ("3", "Host-associated RNA viromes reveal emerging surveillance markers", "84", "PubMed record, clinical/public health signal"),
+    ]:
+        html_body.append(f"<div class='paper-row'><div class='rank'>{rank}</div><div><div class='paper-title'>{html.escape(title)}</div><div class='paper-why'>{html.escape(why)}</div></div><div class='scorebox'>{score}</div></div>")
+    html_body.append("</div><div>")
+    html_body.append("<div class='spark'><span style='height:28%'></span><span style='height:38%'></span><span style='height:36%'></span><span style='height:52%'></span><span style='height:64%'></span><span style='height:79%'></span><span style='height:92%'></span></div>")
+    html_body.append("<div class='clusters'><span class='chip'>Virus discovery</span><span class='chip'>Wastewater AMR</span><span class='chip'>Benchmark datasets</span><span class='chip'>Open tools</span><span class='chip'>Metatranscriptomics</span></div>")
+    html_body.append("<div class='alert-panel'>What changed this week: papers mentioning wastewater metagenomics and AMR increased sharply, and two new tool papers include GitHub code.</div>")
+    html_body.append("<div class='source-strip'><span>PubMed</span><span>bioRxiv</span><span>medRxiv</span><span>Crossref</span><span>Semantic Scholar</span><span>OpenAlex</span></div>")
+    html_body.append("</div></div></div>")
     html_body.append("</section>")
 
     html_body.append("<section id='explore'>")
-    html_body.append("<div class='section-title'><div><h2>How A Radar Gets Built</h2><p>No YAML required at first. ResearchRadar generates a starter radar that can be tuned visually or exported as config.</p></div></div>")
+    html_body.append("<div class='section-title'><div><h2>How A Radar Gets Built</h2><p>No YAML required at first. ETHER generates a starter radar that can be tuned visually or exported as config.</p></div></div>")
     html_body.append("<div class='stepper'>")
     for num, title, desc in [
         ("1", "Enter a topic", "Start with a field, disease, method, organism, or research question."),
@@ -1103,39 +1220,39 @@ def write_outputs(outdir_docs: str, payload: Dict[str, Any]) -> None:
     html_body.append("<div class='builder-grid'>")
     html_body.append("<div class='builder-main'>")
     html_body.append("<div class='builder-panel'><h3>1. Define the topic</h3><section class='controls' aria-label='Define topic'>")
-    html_body.append("<div class='control wide'><label>Radar name</label><input type='text' value='AI Protein Design Radar'/></div>")
-    html_body.append("<div class='control wide'><label>Research question</label><input type='text' value='What are the newest papers on generative models for protein engineering?'/></div>")
+    html_body.append("<div class='control wide'><label>Radar name</label><input type='text' value='Urban microbiome surveillance'/></div>")
+    html_body.append("<div class='control wide'><label>Description</label><input type='text' value='Track built-environment microbiomes, metagenomics, AMR, pathogen surveillance, and environmental sequencing.'/></div>")
     html_body.append("</section></div>")
 
     html_body.append("<div class='builder-panel'><h3>2. Choose sources</h3><div class='checks'>")
-    for source in ["PubMed", "bioRxiv", "medRxiv", "arXiv", "Semantic Scholar", "CrossRef", "Custom RSS feed", "Manual DOI list"]:
+    for source in ["PubMed", "bioRxiv", "medRxiv", "Crossref", "OpenAlex", "Semantic Scholar", "ClinicalTrials.gov", "NIH Reporter", "Patents"]:
         html_body.append(f"<span>{html.escape(source)}</span>")
     html_body.append("</div></div>")
 
     html_body.append("<div class='builder-panel'><h3>3. Define search queries</h3><div class='mode-tabs'><span class='active'>Simple</span><span>Advanced</span></div>")
     html_body.append("<section class='controls' aria-label='Search query controls'>")
-    html_body.append("<div class='control wide'><label>Main terms</label><textarea>protein design, generative models, diffusion models, protein engineering</textarea></div>")
-    html_body.append("<div class='control wide'><label>Exclude terms</label><textarea>opinion, editorial, correction</textarea></div>")
-    html_body.append("<div class='control full'><label>Advanced query preview</label><textarea>(\"protein design\" OR \"protein engineering\") AND (\"diffusion model\" OR \"generative model\" OR \"language model\")</textarea></div>")
+    html_body.append("<div class='control wide'><label>Keywords</label><textarea>urban microbiome, metagenomics, built environment, AMR, wastewater, pathogen surveillance</textarea></div>")
+    html_body.append("<div class='control wide'><label>Negative keywords</label><textarea>soil only, agriculture only, non-microbial ecology</textarea></div>")
+    html_body.append("<div class='control full'><label>Advanced query preview</label><textarea>(\"urban microbiome\" OR \"built environment\" OR wastewater) AND (metagenomics OR AMR OR \"pathogen surveillance\")</textarea></div>")
     html_body.append("</section></div>")
 
-    html_body.append("<div class='builder-panel'><h3>4. Define signal profile</h3><p class='muted'>What should ResearchRadar prioritize?</p><div class='checks'>")
-    for sig in ["New method", "Benchmark or dataset", "Experimental validation", "Clinical/translational relevance", "Review article", "Open-source code", "High-impact journal", "Recent preprint"]:
+    html_body.append("<div class='builder-panel'><h3>4. Define signal profile</h3><p class='muted'>What should ETHER prioritize?</p><div class='checks'>")
+    for sig in ["Recency", "Keyword match", "Journal weight", "Citation velocity", "Author/lab watchlist", "Institution watchlist", "Funding signal", "Clinical relevance", "Methods relevance", "Open-source signal", "Review penalty", "Domain specificity"]:
         html_body.append(f"<span>{html.escape(sig)}</span>")
     html_body.append("</div><section class='controls' aria-label='Custom signal'>")
-    html_body.append("<div class='control wide'><label>Custom research signal</label><input type='text' value='experimentally validated proteins'/></div>")
-    html_body.append("<div class='control wide'><label>Priority terms</label><input type='text' value='wet lab validation, binding assay, structure prediction, functional assay'/></div>")
+    html_body.append("<div class='control wide'><label>Custom research signal</label><input type='text' value='pathogen surveillance in built environments'/></div>")
+    html_body.append("<div class='control wide'><label>Priority terms</label><input type='text' value='wastewater, AMR genes, metagenomic sequencing, public health surveillance'/></div>")
     html_body.append("<div class='control'><label>Weight</label><div class='checks'><span>High</span><span>Medium</span><span>Low</span></div></div>")
     html_body.append("</section></div>")
 
     html_body.append("<div class='builder-panel'><h3>5. Adjust weights</h3><div class='weights'>")
     for name, pct in [
-        ("Recency", 70),
-        ("Topic relevance", 90),
-        ("Methods novelty", 70),
-        ("Clinical relevance", 30),
-        ("Open-source code available", 40),
-        ("Review articles", 20),
+        ("Recency", 30),
+        ("Keyword relevance", 25),
+        ("Citation velocity", 15),
+        ("Journal priority", 10),
+        ("Author watchlist", 10),
+        ("Open data/code", 10),
     ]:
         html_body.append(f"<div class='weight-row'><span>{html.escape(name)}</span><div class='bar'><span style='width:{pct}%'></span></div><span>{pct}%</span></div>")
     html_body.append("</div></div>")
@@ -1143,7 +1260,7 @@ def write_outputs(outdir_docs: str, payload: Dict[str, Any]) -> None:
 
     html_body.append("<aside class='builder-side'>")
     html_body.append("<div class='builder-panel'><h3>Generated starter radar</h3><div class='yaml'>radar_name: Cancer Evolution and Therapy Resistance\nsources:\n  - PubMed\n  - bioRxiv\n  - medRxiv\nquery_set:\n  - \"cancer evolution\"\n  - \"therapy resistance\"\n  - \"clonal evolution\"\n  - \"tumor phylogeny\"\nsignal_profile:\n  high_priority:\n    terms:\n      - \"clonal selection\"\n      - \"subclonal expansion\"\n      - \"drug resistance\"\n      - \"minimal residual disease\"\n    weight: 2.5\n  methods:\n    terms:\n      - \"single-cell sequencing\"\n      - \"phylogenetics\"\n      - \"mutational signatures\"\n    weight: 1.5</div></div>")
-    html_body.append("<div class='builder-panel'><h3>Create your own version</h3><p><b>Level 1</b><br/><span class='muted'>No-code web radar with private/public dashboard, digest, CSV, and BibTeX export.</span></p><p><b>Level 2</b><br/><span class='muted'>Power users edit YAML and run <span class='mono'>researchradar build</span>.</span></p><p><b>Level 3</b><br/><span class='muted'>Developers fork, deploy, and integrate custom APIs.</span></p></div>")
+    html_body.append("<div class='builder-panel'><h3>Create your own version</h3><p><b>Level 1</b><br/><span class='muted'>No-code web radar with private/public dashboard, digest, CSV, and BibTeX export.</span></p><p><b>Level 2</b><br/><span class='muted'>Power users edit YAML and run <span class='mono'>ether build</span>.</span></p><p><b>Level 3</b><br/><span class='muted'>Developers fork, deploy, and integrate custom APIs.</span></p></div>")
     html_body.append("<div class='builder-panel'><h3>Publish options</h3><div class='checks'><span>Save</span><span>Clone</span><span>Compare</span><span>GitHub Pages</span><span>Cloudflare Pages</span><span>Vercel</span><span>Docker</span></div></div>")
     html_body.append("</aside>")
     html_body.append("</div>")
@@ -1165,15 +1282,15 @@ def write_outputs(outdir_docs: str, payload: Dict[str, Any]) -> None:
 
     # Quick nav
     html_body.append("<section id='demo'>")
-    html_body.append("<div class='section-title'><div><h2>AI Protein Design Radar</h2><p>Example dashboard pattern: top papers, trends, authors, journals, methods, saved papers, and exports.</p></div>")
+    html_body.append("<div class='section-title'><div><h2>Live Literature Radar Demo</h2><p>Example dashboard pattern: top-ranked papers, signal breakdowns, trend graphs, topic clusters, emerging signals, saved papers, and exports.</p></div>")
     html_body.append(f"<span class='chip'><b>Total hits</b> {total_hits}</span></div>")
-    html_body.append("<div class='tabs'><span class='active'>Top Papers</span><span>Trends</span><span>Authors</span><span>Journals</span><span>Methods</span><span>Saved</span><span>Export</span></div>")
+    html_body.append("<div class='tabs'><span class='active'>Top-ranked papers</span><span>Signal breakdown</span><span>Trends</span><span>Topic clusters</span><span>Emerging signals</span><span>Alerts</span><span>Export</span></div>")
     html_body.append("<div class='insights'>")
-    html_body.append("<div class='insight'><h3>Top signals this week</h3><ul><li>Diffusion models for enzyme design</li><li>Protein language models with wet-lab validation</li><li>New benchmark datasets for protein fitness prediction</li></ul></div>")
-    html_body.append("<div class='insight'><h3>Emerging terms</h3><ul><li>protein diffusion model <span class='trend-up'>+42%</span></li><li>enzyme design <span class='trend-up'>+31%</span></li><li>antibody language model <span class='trend-up'>+28%</span></li><li>inverse folding <span class='trend-up'>+22%</span></li></ul></div>")
-    html_body.append("<div class='insight'><h3>Field map</h3><div class='tree'>Protein design\n|-- Generative models\n|-- Structure prediction\n|-- Fitness landscapes\n|-- Antibody engineering\n|-- Enzyme design\n`-- Wet-lab validation</div></div>")
-    html_body.append("<div class='insight'><h3>Saved paper tags</h3><div class='checks'><span>grant idea</span><span>read later</span><span>competitor</span><span>method to benchmark</span><span>possible collaborator</span></div></div>")
-    html_body.append("<div class='insight'><h3>Tune by feedback</h3><p class='muted'>Relevant / Not relevant votes can suggest weight increases for lineage tracing, single-cell, phylogeny, or any repeated priority term.</p></div>")
+    html_body.append("<div class='insight'><h3>What is changing this week?</h3><ul><li>Sharp increase in wastewater metagenomics and AMR papers</li><li>Three new preprints mention benchmark datasets</li><li>A new tool paper includes GitHub code and reproducible workflows</li></ul></div>")
+    html_body.append("<div class='insight'><h3>Trend graph</h3><ul><li>Papers per month <span class='trend-up'>+42%</span></li><li>Preprint share <span class='trend-up'>+18%</span></li><li>Citation velocity <span class='trend-up'>+12%</span></li><li>Topic novelty score <span class='trend-up'>+22%</span></li></ul></div>")
+    html_body.append("<div class='insight'><h3>Topic clusters</h3><div class='tree'>Urban microbiome\n|-- Methods and tools\n|-- Disease applications\n|-- Surveillance\n|-- Mechanisms\n|-- Reviews and perspectives\n`-- Datasets and resources</div></div>")
+    html_body.append("<div class='insight'><h3>Paper actions</h3><div class='checks'><span>Save</span><span>Dismiss</span><span>Reading list</span><span>Mark important</span><span>Export citation</span><span>Add note</span><span>Add author to watchlist</span></div></div>")
+    html_body.append("<div class='insight'><h3>Signal breakdown</h3><p class='muted'>Each paper exposes topic relevance, recency, citation velocity, journal/source priority, open science, and watchlist contributions.</p></div>")
     html_body.append("<div class='insight'><h3>Export everything</h3><div class='checks'><span>CSV</span><span>BibTeX</span><span>RIS</span><span>Markdown summary</span><span>Grant background</span><span>Weekly digest</span></div></div>")
     html_body.append("</div>")
     html_body.append("<div class='nav'>")

@@ -1,4 +1,4 @@
-<!doctype html><html><head><meta charset='utf-8'/><meta name='viewport' content='width=device-width,initial-scale=1'/><title>Methods - ETHER</title>
+<!doctype html><html><head><meta charset='utf-8'/><meta name='viewport' content='width=device-width,initial-scale=1'/><title>Roadmap - ETHER</title>
 <style>
   :root{--fg:#1f2328;--muted:#57606a;--border:#d0d7de;--chip:#f6f8fa;--ink:#0b1220;--panel:#f6f8fb;--accent:#0f766e;--shadow:0 12px 34px rgba(31,35,40,.10)}
   body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;max-width:1120px;margin:28px auto;padding:0 18px;line-height:1.55;color:var(--fg);background:#fff}
@@ -16,27 +16,14 @@
   table{border-collapse:collapse;width:100%;margin:12px 0}th,td{border:1px solid var(--border);padding:8px;text-align:left}th{background:var(--chip);color:var(--ink)}
   @media(max-width:760px){.topbar{align-items:flex-start;flex-direction:column}.card,.wide,.full{grid-column:span 12}.hero h1{font-size:32px}}
 </style>
-</head><body><div class='topbar'><div class='brand'><img src='https://raw.githubusercontent.com/aglucaci/ETHER/refs/heads/main/logo/ETHER_logo.png' alt='ETHER Logo' class='logo'/><div class='wordmark'>ETHER</div></div><nav class='appnav'><a href='../'>Home</a><a href='../create/'>Create Radar</a><a href='../explore/'>Demo Radars</a><a href='../templates/'>Templates</a><a href='../community/'>Community</a><a class='active' href='../methodology/'>Methods</a><a href='../docs/'>Docs</a><a href='../api/'>API</a><a href='../roadmap/'>Roadmap</a><a href='../about/'>About</a></nav></div><section class='hero'><h1>Methods</h1><p>How ETHER ranks papers with transparent, user-defined signal weights.</p></section>
-<div class='panel'><p><b>ETHER does not decide whether a paper is good.</b> It ranks papers according to the topic and priority signals defined by the user.</p></div>
-<div class='grid'>
-  <div class='card'><h3>Topic relevance</h3><p>Does the title, abstract, and metadata match the radar query set?</p></div>
-  <div class='card'><h3>Recency weighting</h3><p>Recent papers can receive a boost, with decay over time.</p></div>
-  <div class='card'><h3>Citation velocity</h3><p>Rapidly cited papers can rise when citation metadata is available.</p></div>
-  <div class='card'><h3>Priority term matching</h3><p>Matched terms from the signal profile increase score according to category weights.</p></div>
-  <div class='card'><h3>Source priority</h3><p>Journal, preprint server, DOI, PMID, and source metadata can influence filtering and ranking.</p></div>
-  <div class='card'><h3>User-defined weights</h3><p>Users decide whether methods, clinical relevance, datasets, reviews, or recency matter most.</p></div>
-  <div class='card'><h3>Off-topic penalties</h3><p>Negative keywords, broad-topic penalties, duplicate penalties, and review penalties reduce noise.</p></div>
+</head><body><div class='topbar'><div class='brand'><img src='https://raw.githubusercontent.com/aglucaci/ETHER/refs/heads/main/logo/ETHER_logo.png' alt='ETHER Logo' class='logo'/><div class='wordmark'>ETHER</div></div><nav class='appnav'><a href='../'>Home</a><a href='../create/'>Create Radar</a><a href='../explore/'>Demo Radars</a><a href='../templates/'>Templates</a><a href='../community/'>Community</a><a href='../methodology/'>Methods</a><a href='../docs/'>Docs</a><a href='../api/'>API</a><a class='active' href='../roadmap/'>Roadmap</a><a href='../about/'>About</a></nav></div><section class='hero'><h1>Roadmap</h1><p>The MVP and product path for a living scientific radar.</p></section>
+<div class='steps'>
+  <div class='step'><div><h3>Create a radar from topic keywords</h3><p>Start with topic, description, keywords, and negative filters.</p></div></div>
+  <div class='step'><div><h3>Query PubMed and bioRxiv</h3><p>Expand source adapters over time to medRxiv, Crossref, OpenAlex, Semantic Scholar, patents, grants, and trials.</p></div></div>
+  <div class='step'><div><h3>Rank with transparent signal weights</h3><p>Show exactly why each paper ranked highly.</p></div></div>
+  <div class='step'><div><h3>Display live dashboards</h3><p>Top papers, trend graphs, topic clusters, sources, alerts, and exports.</p></div></div>
+  <div class='step'><div><h3>Save, dismiss, and export papers</h3><p>Support reading lists, notes, BibTeX, CSV, Markdown, and manuscript bibliography actions.</p></div></div>
+  <div class='step'><div><h3>Weekly email and RSS alerts</h3><p>Notify users when high-priority papers or topic spikes appear.</p></div></div>
 </div>
-<div class='panel'><h2>Formula</h2><div class='yaml'>Research Relevance Score =
-topic relevance
-+ Recency weight
-+ Source priority
-+ Citation velocity
-+ Author/lab watchlist
-+ Open science signal
-+ Clinical/translational signal
-+ User feedback signal
-- Off-topic penalty
-- Duplicate penalty</div></div>
-<div class='panel'><h2>User-facing explanation</h2><p>Each paper says why it ranked highly: strong topic match, recent publication, code/data availability, prioritized source, watched author or institution, or membership in a growing topic cluster.</p></div>
+<div class='panel'><h2>Strong product framing</h2><p>ETHER is not just a PubMed search wrapper. It is a configurable research radar that turns scientific literature into a ranked, explainable, updateable intelligence dashboard.</p></div>
 <div class='muted' style='margin:28px 0 10px'>ETHER is the Emerging Topic Horizon Engine for Research. Static pages are generated with the radar dashboard.</div></body></html>

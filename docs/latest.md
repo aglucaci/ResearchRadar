@@ -1,4 +1,4 @@
-# ResearchRadar scientific literature radar
+# ETHER scientific literature radar
 
 **Updated:** 2026-05-20 16:19:01  
 **Window:** last 14 day(s)  
