@@ -16,18 +16,14 @@ import argparse
 import datetime as dt
 import html
 import json
+import re
 import sys
 import time
 import urllib.parse
 import urllib.request
 import xml.etree.ElementTree as ET
-from typing import Dict, List, Any, Tuple
-
-
-from __future__ import annotations
 from dataclasses import dataclass, field
-from typing import Optional
-import re
+from typing import Any, Dict, List, Optional, Tuple
 import math
 #from datetime import datetime, timezone
 
@@ -205,8 +201,10 @@ def efetch_details(pmids: List[str]) -> List[Dict[str, Any]]:
     for article in root.findall(".//PubmedArticle"):
         pmid = (article.findtext(".//PMID") or "").strip()
 
-        title = (article.findtext(".//ArticleTitle") or "").strip()
-        abstract = (article.findtext(".//Abstract/AbstractText") or "").strip()
+        title = _element_text(article.find(".//ArticleTitle"))
+        abstract = " ".join(
+            [_element_text(n) for n in article.findall(".//Abstract/AbstractText") if _element_text(n)]
+        ).strip()
 
         journal = (article.findtext(".//Journal/Title") or "").strip()
         year = (article.findtext(".//PubDate/Year") or "").strip()
@@ -239,6 +237,13 @@ def efetch_details(pmids: List[str]) -> List[Dict[str, Any]]:
             }
         )
     return items
+
+
+def _element_text(node: Optional[ET.Element]) -> str:
+    """Return all nested text from PubMed XML nodes, including italicized taxa."""
+    if node is None:
+        return ""
+    return " ".join("".join(node.itertext()).split())
 
 
 def rank_and_trim(items: List[Dict[str, Any]], max_items: int) -> List[Dict[str, Any]]:

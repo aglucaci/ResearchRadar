@@ -528,11 +528,11 @@ def efetch_details(pmids: List[str], theme_key: str) -> List[Dict[str, Any]]:
     items: List[Dict[str, Any]] = []
     for article in root.findall(".//PubmedArticle"):
         pmid = (article.findtext(".//PMID") or "").strip()
-        title = (article.findtext(".//ArticleTitle") or "").strip()
+        title = _element_text(article.find(".//ArticleTitle"))
 
         # Abstract can have multiple AbstractText nodes (and labels)
         abs_nodes = article.findall(".//Abstract/AbstractText")
-        abstract = " ".join([(n.text or "").strip() for n in abs_nodes if (n.text or "").strip()]).strip()
+        abstract = " ".join([_element_text(n) for n in abs_nodes if _element_text(n)]).strip()
 
         journal = (article.findtext(".//Journal/Title") or "").strip()
 
@@ -578,6 +578,13 @@ def efetch_details(pmids: List[str], theme_key: str) -> List[Dict[str, Any]]:
             }
         )
     return items
+
+
+def _element_text(node: Optional[ET.Element]) -> str:
+    """Return all nested text from PubMed XML nodes, including italicized taxa."""
+    if node is None:
+        return ""
+    return " ".join("".join(node.itertext()).split())
 
 
 def rank_and_trim(items: List[Dict[str, Any]], max_items: int) -> List[Dict[str, Any]]:
@@ -924,7 +931,6 @@ python -m unittest tests.test_scoring</div></div>
         )
     paper_cards.append("</div>")
     radar_body = (
-        "<div class='panel'><h2>Dashboard URL</h2><p><span class='mono'>ether.org/radar/urban-microbiome-surveillance</span></p><p>Each radar gets a shareable URL with sortable top papers, signal breakdowns, trends, clusters, alerts, and exports.</p></div>"
         "<div class='grid'><div class='card'><h3>Top-ranked papers</h3><p>Sortable table with rank, title, year, source, score, and why it matters.</p></div>"
         "<div class='card'><h3>Signal breakdown</h3><p>Topic relevance, recency, citation velocity, journal/source priority, open science, and watchlist scores.</p></div>"
         "<div class='card'><h3>Literature trend over time</h3><p>Papers per month, source breakdown, top journals, keyword trends, citation velocity, and novelty score.</p></div>"
