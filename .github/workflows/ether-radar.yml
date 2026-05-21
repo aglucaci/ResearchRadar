@@ -62,7 +62,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-      # ETHER uses requests; keep deps minimal & fast
+          # ETHER uses requests; keep deps minimal & fast
           pip install requests
 
       - name: Decide run mode (daily vs weekly)
@@ -124,8 +124,6 @@ jobs:
             exit 0
           fi
 
-          MSG="ETHER ${{
-            steps.mode.outputs.mode
-          }} update $(date -u +'%Y-%m-%d')"
+          MSG="ETHER ${{ steps.mode.outputs.mode }} update $(date -u +'%Y-%m-%d')"
           git commit -m "$MSG"
           git push
